@@ -16,9 +16,28 @@ export class ApiService {
   }
 
   // Send metadata and selected goals to the backend
-  startQualityAssessment(data: any): Observable<any> {
-    return this.http.post(`${this.backendUrl}/quality-assessment`, data, {
+  startInstrumentation(data: any): Observable<any> {
+    return this.http.post(`${this.backendUrl}/instrumentation`, data, {
       headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  startProgressStream(): Observable<string> {
+    return new Observable((observer) => {
+      const eventSource = new EventSource(`${this.backendUrl}/progress`);
+
+      eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        observer.next(data.message);
+      };
+
+      eventSource.onerror = (error) => {
+        console.error('Error with SSE stream:', error);
+        observer.error(error);
+        eventSource.close();
+      };
+
+      return () => eventSource.close();
     });
   }
 }

@@ -7,8 +7,12 @@
   <!-- Quality Model Section -->
   <app-quality-model (goalsSelected)="onGoalsSelected($event)"></app-quality-model>
 
-  <!-- Single Button to Start Assessment -->
-  <button class="start-assessment-btn" (click)="startQualityAssessment()">
-    Start Quality Assessment
+  <!-- Progress Bar Section -->
+  <app-progress-bar *ngIf="progressVisible" [progress]="progress" [progressMessage]="progressMessage"></app-progress-bar>
+
+  <!-- Start Assessment Button -->
+  <button class="start-assessment-btn" [disabled]="instrumentationInProgress"
+    [class.assessment-running]="instrumentationInProgress" (click)="startInstrumentation()">
+    {{ instrumentationInProgress ? 'Assessment In Progress...' : 'Start Quality Assessment' }}
   </button>
 </div>

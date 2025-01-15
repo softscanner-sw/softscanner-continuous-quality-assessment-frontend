@@ -11,12 +11,14 @@ import { QualityModelComponent } from './components/quality-model/quality-model.
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTreeModule } from '@angular/material/tree';
+import { ProgressBarComponent } from './shared/components/progress-bar/progress-bar.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         QualityModelComponent,
-        MetadataFormComponent
+        MetadataFormComponent,
+        ProgressBarComponent
     ],
     imports: [
         BrowserModule, 

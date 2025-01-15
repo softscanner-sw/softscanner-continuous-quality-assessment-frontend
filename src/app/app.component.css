@@ -30,7 +30,7 @@ button[type="submit"] {
     width: 100%;
 }
 
-/* Start Assessment Button */
+/* Start Assessment Button Styling */
 .start-assessment-btn {
     display: block;
     margin: 30px auto 0;
@@ -41,8 +41,15 @@ button[type="submit"] {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    transition: background-color 0.3s ease-in-out;
 }
 
 .start-assessment-btn:hover {
     background-color: #0056b3;
+}
+
+.start-assessment-btn.assessment-running {
+    background-color: #ff9800;
+    /* Orange during assessment */
+    cursor: not-allowed;
 }
