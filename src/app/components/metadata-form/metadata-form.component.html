@@ -1,0 +1,19 @@
+<h2>Application Metadata</h2>
+<form (ngSubmit)="onSubmit()">
+  <label for="name">Name:</label>
+  <input type="text" id="name" [(ngModel)]="appMetadata.name" name="name" required />
+
+  <label for="type">Type:</label>
+  <input type="text" id="type" [(ngModel)]="appMetadata.type" name="type" required />
+
+  <label for="technology">Technology:</label>
+  <input type="text" id="technology" [(ngModel)]="appMetadata.technology" name="technology" required />
+
+  <label for="path">Codebase Path:</label>
+  <input type="text" id="path" [(ngModel)]="appMetadata.path" name="path" required />
+
+  <label for="url">URL:</label>
+  <input type="text" id="url" [(ngModel)]="appMetadata.url" name="url" required />
+
+  <!-- <button type="submit">Submit Metadata</button> -->
+</form>

@@ -1,0 +1,129 @@
+/* Quality Container */
+.quality-container {
+    width: 100%;
+    overflow-x: auto;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    white-space: nowrap;
+}
+
+/* SVG Container */
+.svg-container {
+    display: inline-block;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    border: 1px solid #ccc;
+}
+
+/* Rectangular Nodes Styling */
+rect {
+    cursor: pointer;
+    stroke: #333;
+    stroke-width: 2px;
+    transition: fill 0.3s ease;
+}
+
+rect:hover {
+    fill: #6c63ff;
+}
+
+/* Node Labels */
+.node-label {
+    font-weight: bold;
+    font-size: 14px;
+    fill: #333;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+/* Expand/Collapse Icon */
+.expand-icon {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    fill: #333;
+}
+
+.expand-icon:hover {
+    fill: #0056b3;
+}
+
+/* Contextual Menu Styling */
+.contextual-menu {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    /* padding: 10px; */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: auto;
+    max-width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+/* Menu Items Styling */
+.menu-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.menu-item span {
+    word-break: break-word;
+}
+
+/* Hover Effects for Menu Items */
+.menu-item:hover {
+    background-color: #f3f4fc;
+}
+
+/* Composite Icon Styling (▶️/▼) */
+.composite-icon {
+    font-size: 16px;
+    cursor: pointer;
+    color: #6c63ff;
+    margin-right: 10px;
+}
+
+.composite-icon:hover {
+    color: #4a43d2;
+}
+
+/* Select Icon Styling (➕/✅) */
+.select-icon {
+    font-size: 16px;
+    cursor: pointer;
+    color: #007bff;
+    margin-left: auto;
+}
+
+.select-icon:hover {
+    color: #0056b3;
+}
+
+/* Start Assessment Button */
+.start-assessment-btn {
+    display: block;
+    margin: 30px auto 0;
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.start-assessment-btn:hover {
+    background-color: #0056b3;
+}

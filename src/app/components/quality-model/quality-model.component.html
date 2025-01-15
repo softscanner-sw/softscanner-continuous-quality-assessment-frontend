@@ -1,0 +1,51 @@
+<div class="quality-container">
+    <!-- Quality Model Title -->
+    <h2>SoftScanner's Quality Mapping Model (SSQMM)</h2>
+
+    <!-- Scrollable SVG Tree Visualization -->
+    <div class="svg-container">
+        <svg [attr.width]="svgWidth" [attr.height]="svgHeight">
+            <!-- Top-level nodes -->
+            <g *ngFor="let node of topLevelNodes">
+                <!-- Top-level Rectangular Nodes -->
+                <rect [attr.x]="node.x!! - rectWidth / 2" [attr.y]="node.y!! - rectHeight / 2" [attr.width]="rectWidth"
+                    [attr.height]="rectHeight" rx="10" ry="10"
+                    [attr.fill]="selectedGoals.includes(node.name) ? '#6c63ff' : '#ccc'"
+                    (click)="toggleGoalSelection(node)"></rect>
+
+                <!-- Node Labels -->
+                <foreignObject [attr.x]="node.x!! - rectWidth / 2" [attr.y]="node.y!! - rectHeight / 2"
+                    [attr.width]="rectWidth" [attr.height]="rectHeight">
+                    <div class="node-label">{{ node.name }}</div>
+                </foreignObject>
+
+                <!-- Expand/Collapse Icon -->
+                <text [attr.x]="node.x!! + rectWidth / 2 + 10" [attr.y]="node.y!!" class="expand-icon"
+                    (click)="toggleExpand(node)">
+                    {{ node.expanded ? '-' : '+' }}
+                </text>
+
+                <!-- Contextual Menu -->
+                <foreignObject *ngIf="node.expanded" [attr.x]="node.x!! - rectWidth / 2" [attr.y]="node.y!! + 80"
+                    width="300" height="400">
+                    <div class="contextual-menu">
+                        <ul>
+                            <li *ngFor="let child of node.children" class="menu-item">
+                                <span *ngIf="child.children" class="composite-icon" (click)="toggleExpand(child)">
+                                    {{ child.expanded ? '▼' : '▶️' }}
+                                </span>
+                                <span>{{ child.name }}</span>
+                                <span *ngIf="!child.children" class="select-icon" (click)="toggleGoalSelection(child)">
+                                    {{ selectedGoals.includes(child.name) ? '✅' : '➕' }}
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </foreignObject>
+            </g>
+        </svg>
+    </div>
+
+    <!-- Start Assessment Button -->
+    <button class="start-assessment-btn" (click)="startAssessment()">Start Quality Assessment</button>
+</div>

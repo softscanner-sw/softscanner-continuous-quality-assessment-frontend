@@ -1,0 +1,31 @@
+/* App Container Styling */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+/* Page Heading Styling */
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Shared Button Styling */
+button {
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* General Form Button Styling */
+button[type="submit"] {
+    width: 100%;
+}
