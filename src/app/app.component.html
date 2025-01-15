@@ -5,5 +5,10 @@
   <app-metadata-form (metadataSubmitted)="onMetadataSubmit($event)"></app-metadata-form>
 
   <!-- Quality Model Section -->
-  <app-quality-model></app-quality-model>
+  <app-quality-model (goalsSelected)="onGoalsSelected($event)"></app-quality-model>
+
+  <!-- Single Button to Start Assessment -->
+  <button class="start-assessment-btn" (click)="startQualityAssessment()">
+    Start Quality Assessment
+  </button>
 </div>

@@ -110,20 +110,3 @@ rect:hover {
 .select-icon:hover {
     color: #0056b3;
 }
-
-/* Start Assessment Button */
-.start-assessment-btn {
-    display: block;
-    margin: 30px auto 0;
-    padding: 12px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.start-assessment-btn:hover {
-    background-color: #0056b3;
-}

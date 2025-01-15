@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 
 interface GoalNode {
@@ -18,8 +18,11 @@ interface GoalNode {
 })
 export class QualityModelComponent implements OnInit {
   @Input() metadata: any;
+  @Output() goalsSelected = new EventEmitter<string[]>();
+
   qualityModel: any;
   selectedGoals: string[] = [];
+
   nodes: any[] = [];
   topLevelNodes: GoalNode[] = [];
   svgWidth = 1500;
@@ -47,6 +50,8 @@ export class QualityModelComponent implements OnInit {
     } else {
       this.selectedGoals.push(node.name);
     }
+
+    this.goalsSelected.emit(this.selectedGoals);
   }
 
   toggleExpand(node: GoalNode): void {
@@ -68,19 +73,6 @@ export class QualityModelComponent implements OnInit {
     document.querySelectorAll('.contextual-menu').forEach((menu) => {
       (menu as HTMLElement).style.width = `${Math.min(calculatedWidth, 300)}px`;
     });
-  }
-
-  startAssessment(): void {
-    if (this.metadata) {
-      this.apiService
-        .startQualityAssessment({
-          metadata: this.metadata,
-          selectedGoals: this.selectedGoals,
-        })
-        .subscribe((response) => {
-          console.log('Assessment started:', response);
-        });
-    }
   }
 
   private transformToTreeNodes(goals: any[], parent?: GoalNode): GoalNode[] {

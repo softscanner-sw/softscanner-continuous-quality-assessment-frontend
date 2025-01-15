@@ -15,8 +15,10 @@ export class ApiService {
     return this.http.get(`${this.backendUrl}/quality-model`);
   }
 
-  // Send the selected goals and metadata to the backend
+  // Send metadata and selected goals to the backend
   startQualityAssessment(data: any): Observable<any> {
-    return this.http.post(`${this.backendUrl}/quality-assessment`, data);
+    return this.http.post(`${this.backendUrl}/quality-assessment`, data, {
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }

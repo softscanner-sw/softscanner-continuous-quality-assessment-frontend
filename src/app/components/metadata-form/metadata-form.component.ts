@@ -16,7 +16,29 @@ export class MetadataFormComponent {
     url: ''
   };
 
-  onSubmit() {
-    this.metadataSubmitted.emit(this.appMetadata);
+  toggleState: boolean = false;
+
+  // Emit metadata when the toggle is turned on, and reset it when turned off
+  onToggle() {
+    if (!this.isFilled()){
+      alert('Please fill out the required metadata.');
+      return;
+    }
+
+    this.toggleState = !this.toggleState;
+
+    if (this.toggleState) {
+      // console.log('Emitting metadata:', this.appMetadata);
+      this.metadataSubmitted.emit({ ...this.appMetadata });
+    } else {
+      // console.log('Clearing metadata');
+      this.metadataSubmitted.emit({});
+    }
+  }
+
+  isFilled() {
+    return this.appMetadata.name && this.appMetadata.path
+      && this.appMetadata.technology && this.appMetadata.type
+      && this.appMetadata.url;
   }
 }

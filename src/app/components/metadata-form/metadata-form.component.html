@@ -1,5 +1,5 @@
 <h2>Application Metadata</h2>
-<form (ngSubmit)="onSubmit()">
+<form (ngSubmit)="onToggle()">
   <label for="name">Name:</label>
   <input type="text" id="name" [(ngModel)]="appMetadata.name" name="name" required />
 
@@ -15,5 +15,8 @@
   <label for="url">URL:</label>
   <input type="text" id="url" [(ngModel)]="appMetadata.url" name="url" required />
 
-  <!-- <button type="submit">Submit Metadata</button> -->
+  <!-- Toggle Button -->
+  <button type="submit" [class.toggled]="toggleState">
+    {{ toggleState ? 'Metadata Set (Click to Reset)' : 'Set Metadata' }}
+  </button>
 </form>
