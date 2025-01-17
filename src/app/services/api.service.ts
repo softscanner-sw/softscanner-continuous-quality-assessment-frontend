@@ -2,6 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+export interface ProgressData {
+  type: 'progress' | 'metrics';
+  message?: string; // For progress updates
+  metrics?: any[];  // For metric updates
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,18 +23,19 @@ export class ApiService {
 
   // Send metadata and selected goals to the backend
   startInstrumentation(data: any): Observable<any> {
-    return this.http.post(`${this.backendUrl}/instrumentation`, data, {
+    return this.http.post(`${this.backendUrl}/assessment`, data, {
       headers: { 'Content-Type': 'application/json' },
     });
   }
 
-  startProgressStream(): Observable<string> {
+  // Stream progress and metrics from the backend
+  startProgressStream(): Observable<ProgressData> {
     return new Observable((observer) => {
       const eventSource = new EventSource(`${this.backendUrl}/progress`);
 
       eventSource.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        observer.next(data.message);
+        const data: ProgressData = JSON.parse(event.data);
+        observer.next(data);
       };
 
       eventSource.onerror = (error) => {

@@ -12,13 +12,16 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTreeModule } from '@angular/material/tree';
 import { ProgressBarComponent } from './shared/components/progress-bar/progress-bar.component';
+import { MetricsDashboardComponent } from './shared/components/metrics-dashboard/metrics-dashboard.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
     declarations: [
         AppComponent,
         QualityModelComponent,
         MetadataFormComponent,
-        ProgressBarComponent
+        ProgressBarComponent,
+        MetricsDashboardComponent
     ],
     imports: [
         BrowserModule, 
@@ -27,7 +30,8 @@ import { ProgressBarComponent } from './shared/components/progress-bar/progress-
         HttpClientModule,
         MatTreeModule,
         MatCheckboxModule,
-        MatIconModule
+        MatIconModule,
+        NgxChartsModule
     ],
     providers: [
     provideAnimationsAsync()

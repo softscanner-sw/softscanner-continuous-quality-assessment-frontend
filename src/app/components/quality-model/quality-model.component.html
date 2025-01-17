@@ -22,7 +22,7 @@
                 <!-- Expand/Collapse Icon -->
                 <text [attr.x]="node.x!! + rectWidth / 2 + 10" [attr.y]="node.y!!" class="expand-icon"
                     (click)="toggleExpand(node)">
-                    {{ node.expanded ? '-' : '+' }}
+                    {{ node.expanded ? '▲' : '▼' }}
                 </text>
 
                 <!-- Contextual Menu -->
@@ -31,12 +31,16 @@
                     <div class="contextual-menu">
                         <ul>
                             <li *ngFor="let child of node.children" class="menu-item">
+                                <!-- Composite Node Expand/Collapse -->
                                 <span *ngIf="child.children" class="composite-icon" (click)="toggleExpand(child)">
-                                    {{ child.expanded ? '▼' : '▶️' }}
+                                    {{ child.expanded ? '▲' : '▼' }}
                                 </span>
+                                <!-- Node Name -->
                                 <span>{{ child.name }}</span>
-                                <span *ngIf="!child.children" class="select-icon" (click)="toggleGoalSelection(child)">
-                                    {{ selectedGoals.includes(child.name) ? '✅' : '➕' }}
+                                <!-- Leaf Node Checkbox -->
+                                <span *ngIf="!child.children" class="checkbox-icon">
+                                    <input type="checkbox" [checked]="selectedGoals.includes(child.name)"
+                                        (change)="toggleGoalSelection(child)" />
                                 </span>
                             </li>
                         </ul>

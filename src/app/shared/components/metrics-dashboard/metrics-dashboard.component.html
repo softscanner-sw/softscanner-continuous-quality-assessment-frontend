@@ -1,0 +1,49 @@
+<div class="dashboard">
+    <h2>Metrics Dashboard</h2>
+  
+    <!-- Line Chart -->
+    <ngx-charts-line-chart
+      [view]="[700, 400]"
+      [scheme]="'cool'"
+      [results]="lineChartData"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="true"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [animations]="false"
+      xAxisLabel="Time"
+      yAxisLabel="Value"
+      (legendLabelClick)="onLegendClick($event)"
+    >
+    </ngx-charts-line-chart>
+  
+    <!-- Bar Chart -->
+    <ngx-charts-bar-vertical
+      [view]="[700, 400]"
+      [scheme]="'cool'"
+      [results]="barChartData"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="true"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [animations]="false"
+      xAxisLabel="Metric"
+      yAxisLabel="Value"
+    >
+    </ngx-charts-bar-vertical>
+  
+    <!-- Pie Chart -->
+    <ngx-charts-pie-chart
+      [view]="[700, 400]"
+      [scheme]="'cool'"
+      [results]="pieChartData"
+      [legend]="true"
+      [labels]="true"
+      [animations]="false"
+      [labelFormatting]="formatPieLabel"
+    >
+    </ngx-charts-pie-chart>
+  </div>
+  

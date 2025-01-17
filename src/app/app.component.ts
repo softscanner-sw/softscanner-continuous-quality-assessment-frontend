@@ -10,10 +10,12 @@ export class AppComponent {
   title = 'Continuous Quality Web Assessment';
   metadata: any = {};
   selectedGoals: string[] = [];
+  metrics: any[] = []; // Real-time metrics data
   progress: number = 0;
   progressMessage: string = '';
-  instrumentationInProgress: boolean = false;
+  assessmentInProgress: boolean = false;
   progressVisible: boolean = false; // Initially hidden
+  metricsVisible: boolean = false; // Initially hidden
 
   constructor(private apiService: ApiService, private cdr: ChangeDetectorRef) { }
 
@@ -29,9 +31,9 @@ export class AppComponent {
   }
 
   // Combine metadata and selected goals into a single request
-  startInstrumentation() {
-    if (this.instrumentationInProgress) {
-      alert('Instrumentation is already in progress. Please wait for it to complete.');
+  startAssessment() {
+    if (this.assessmentInProgress) {
+      alert('Assessment is already in progress. Please wait for it to complete.');
       return;
     }
 
@@ -41,13 +43,23 @@ export class AppComponent {
         selectedGoals: this.selectedGoals,
       };
 
-      // Make progress bar visible when the instrumentation starts
+      // Make progress bar visible when the assessment starts
       this.progressVisible = true;
 
       // Start the progress stream
       this.apiService.startProgressStream().subscribe({
-        next: (progressMessage) => {
-          this.updateProgress(progressMessage);
+        next: (data) => {
+          console.log(`Received data from backend: ${JSON.stringify(data, null, 2)}`);
+          if (data.type === "metrics" && data.metrics) {
+            this.metrics = data.metrics;
+            this.metricsVisible = this.metrics.length > 0; // Only show if metrics exist
+            this.cdr.detectChanges(); // Force UI update
+            console.log('Updated metrics:', this.metrics);
+            console.log('Dashboard should be visible now?: ', this.metricsVisible);
+          }
+          else if (data.type === "progress" && data.message){
+            this.updateProgress(data.message);
+          }
         },
         error: (error) => {
           console.error('Error receiving progress updates:', error);
@@ -72,7 +84,7 @@ export class AppComponent {
         }
       });
 
-      this.instrumentationInProgress = true;
+      this.assessmentInProgress = true;
     } else {
       alert('Please fill out the metadata and select at least one goal.');
     }
@@ -84,10 +96,10 @@ export class AppComponent {
 
     // Increment progress in smaller steps
     if (this.progress < 100) {
-      this.progress += 10; // Increment by 10% on each message
+      this.progress += 5; // Increment by 5% on each message
     }
 
-    if (message.includes('complete'))
+    if (message.includes('injection completed'))
       this.completeInstrumentation();
   }
 
@@ -95,10 +107,27 @@ export class AppComponent {
   completeInstrumentation() {
     this.progress = 100;
     this.progressMessage = 'Instrumentation bundle generated and injected successfully!';
-    this.instrumentationInProgress = false;
+    this.assessmentInProgress = false;
+
+    // Prompt the user to open their application in a browser
+    this.promptToOpenApplication();
 
     // Reset progress bar after a short delay
     setTimeout(() => this.resetProgressBar(), 5000);
+  }
+
+  // Prompt the user to open the application
+  promptToOpenApplication() {
+    const userConfirmed = confirm(
+      'Instrumentation is complete. Do you want to open your application to interact with it?'
+    );
+
+    if (userConfirmed && this.metadata.url) {
+      // Open the application URL in a new browser tab
+      window.open(this.metadata.url, '_blank');
+    } else {
+      alert('You can manually open your application later if needed.');
+    }
   }
 
   // Reset progress bar values
