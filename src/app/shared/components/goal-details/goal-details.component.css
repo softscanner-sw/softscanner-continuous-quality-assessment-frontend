@@ -1,0 +1,38 @@
+.goal-details {
+    max-width: 600px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    word-wrap: break-word;
+    white-space: normal;
+    overflow: hidden;
+}
+
+.goal-details h4 {
+    color: #007bff;
+}
+
+.goal-details p {
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 5px 0;
+}
+
+/* Close Button Styling */
+.goal-details button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.goal-details button:hover {
+    background-color: #cc0000;
+}

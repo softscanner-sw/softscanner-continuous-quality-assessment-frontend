@@ -10,13 +10,16 @@
                 <!-- Top-level Rectangular Nodes -->
                 <rect [attr.x]="node.x!! - rectWidth / 2" [attr.y]="node.y!! - rectHeight / 2" [attr.width]="rectWidth"
                     [attr.height]="rectHeight" rx="10" ry="10"
-                    [attr.fill]="selectedGoals.includes(node.name) ? '#6c63ff' : '#ccc'"
-                    (click)="toggleGoalSelection(node)"></rect>
+                    [attr.fill]="selectedGoals.includes(node.name) ? '#6c63ff' : '#ccc'">
+                </rect>
 
                 <!-- Node Labels -->
                 <foreignObject [attr.x]="node.x!! - rectWidth / 2" [attr.y]="node.y!! - rectHeight / 2"
                     [attr.width]="rectWidth" [attr.height]="rectHeight">
-                    <div class="node-label">{{ node.name }}</div>
+                    <div class="node-label">
+                        {{ node.name }}
+                        <span class="details-icon" (click)="showGoalDetails(node)">&#9432;</span>
+                    </div>
                 </foreignObject>
 
                 <!-- Expand/Collapse Icon -->
@@ -31,17 +34,17 @@
                     <div class="contextual-menu">
                         <ul>
                             <li *ngFor="let child of node.children" class="menu-item">
-                                <!-- Composite Node Expand/Collapse -->
-                                <span *ngIf="child.children" class="composite-icon" (click)="toggleExpand(child)">
-                                    {{ child.expanded ? '▲' : '▼' }}
-                                </span>
-                                <!-- Node Name -->
-                                <span>{{ child.name }}</span>
-                                <!-- Leaf Node Checkbox -->
-                                <span *ngIf="!child.children" class="checkbox-icon">
-                                    <input type="checkbox" [checked]="selectedGoals.includes(child.name)"
-                                        (change)="toggleGoalSelection(child)" />
-                                </span>
+                                <div class="menu-content">
+                                    <span class="menu-label">{{ child.name }}</span>
+                                    <span class="details-icon" (click)="showGoalDetails(child)">&#9432;</span>
+                                    <span *ngIf="child.children" class="composite-icon" (click)="toggleExpand(child)">
+                                        {{ child.expanded ? '▲' : '▼' }}
+                                    </span>
+                                    <span *ngIf="!child.children" class="checkbox-icon">
+                                        <input type="checkbox" [checked]="selectedGoals.includes(child.name)"
+                                            (change)="toggleGoalSelection(child)" />
+                                    </span>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -49,4 +52,8 @@
             </g>
         </svg>
     </div>
+
+    <!-- Goal Details Component -->
+    <app-goal-details *ngIf="selectedGoal" [goal]="selectedGoal" (closeDetails)="closeGoalDetails()">
+    </app-goal-details>
 </div>

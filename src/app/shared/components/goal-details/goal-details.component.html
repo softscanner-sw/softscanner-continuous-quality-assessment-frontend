@@ -1,0 +1,7 @@
+<div *ngIf="goal" class="goal-details">
+    <h4>Details for {{ goal.name }}</h4>
+    <p><strong>Description:</strong></p>
+    <p>{{ goal.description }}</p>
+    <p *ngIf="goal.parent"><strong>Parent Goal:</strong> {{ goal.parent.name }}</p>
+    <button (click)="close()">Close</button>
+</div>

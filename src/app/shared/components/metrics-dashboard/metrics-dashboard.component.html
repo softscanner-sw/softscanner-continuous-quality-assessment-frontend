@@ -18,7 +18,8 @@
       [animations]="true" 
       [autoScale]="true" 
       xAxisLabel="Time" 
-      [yAxisLabel]="metric.name + ' (' + metric.unit + ')'">
+      [yAxisLabel]="metric.name + ' (' + metric.unit + ')'"
+      (select)="onLegendClick($event, goal.name)">
     </ngx-charts-line-chart>
 
     <!-- Bar Chart showing current metric values -->

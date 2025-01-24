@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 
-interface GoalNode {
+export interface GoalNode {
   name: string;
+  description: string;
   children?: GoalNode[];
   x?: number;
   y?: number;
@@ -22,6 +23,7 @@ export class QualityModelComponent implements OnInit {
 
   qualityModel: any;
   selectedGoals: string[] = [];
+  selectedGoal: GoalNode | null = null; // Track selected goal
 
   nodes: any[] = [];
   topLevelNodes: GoalNode[] = [];
@@ -75,10 +77,23 @@ export class QualityModelComponent implements OnInit {
     });
   }
 
+  showGoalDetails(node: GoalNode): void {
+    this.selectedGoal = {
+      name: node.name,
+      description: node.description,
+      parent: node.parent
+    };
+  }
+
+  closeGoalDetails(): void {
+    this.selectedGoal = null;
+  }
+
   private transformToTreeNodes(goals: any[], parent?: GoalNode): GoalNode[] {
     return goals.map((goal) => {
       const node: GoalNode = {
         name: goal.name,
+        description: goal.description,
         parent,
         expanded: false,
         visible: true,

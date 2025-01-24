@@ -16,6 +16,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MetricsDashboardComponent } from './shared/components/metrics-dashboard/metrics-dashboard.component';
 import { ProgressBarComponent } from './shared/components/progress-bar/progress-bar.component';
 import { MetricDetailsComponent } from './shared/components/metric-details/metric-details.component';
+import { GoalDetailsComponent } from './shared/components/goal-details/goal-details.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { MetricDetailsComponent } from './shared/components/metric-details/metri
         MetadataFormComponent,
         ProgressBarComponent,
         MetricsDashboardComponent,
-        MetricDetailsComponent
+        MetricDetailsComponent,
+        GoalDetailsComponent
     ],
     imports: [
         BrowserModule, 
