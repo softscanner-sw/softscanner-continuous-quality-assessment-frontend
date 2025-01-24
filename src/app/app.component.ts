@@ -12,8 +12,7 @@ export class AppComponent {
   metadata: any = {};
   selectedGoals: string[] = [];
   metrics$: Observable<MetricsApiData> = of(); // Initialize with an empty observable
-  progress: number = 0;
-  progressMessage: string = '';
+  progressMessages: string[] = [];
   assessmentInProgress: boolean = false;
   progressVisible: boolean = false; // Initially hidden
   metricsVisible: boolean = false; // Initially hidden
@@ -52,7 +51,7 @@ export class AppComponent {
         next: (response) => {
           console.log('Assessment started:', response);
 
-           // Start progress and metrics monitoring with received assessmentId
+          // Start progress and metrics monitoring with received assessmentId
           this.startProgressMonitoring(response.assessmentId);
           this.startMetricsMonitoring(response.assessmentId);
         },
@@ -108,12 +107,16 @@ export class AppComponent {
 
   // Update progress bar with the message from the server
   updateProgress(message: string) {
-    this.progressMessage = message;
+    // Append new message to progress logs
+    this.progressMessages.push(message);
 
-    // Increment progress in smaller steps
-    if (this.progress < 100) {
-      this.progress += 5; // Increment by 5% on each message
+    // Ensure only last 100 messages are displayed
+    if (this.progressMessages.length > 100) {
+      this.progressMessages.shift();
     }
+
+    this.progressVisible = true; // Ensure visibility during progress updates
+    this.cdr.detectChanges();
 
     if (message.includes('injection completed'))
       this.completeInstrumentation();
@@ -121,15 +124,15 @@ export class AppComponent {
 
   // Handle instrumentation completion
   completeInstrumentation() {
-    this.progress = 100;
-    this.progressMessage = 'Instrumentation bundle generated and injected successfully!';
+    // this.progress = 100;
     this.assessmentInProgress = false;
+
 
     // Prompt the user to open their application in a browser
     this.promptToOpenApplication();
 
-    // Reset progress bar after a short delay
-    setTimeout(() => this.resetProgressBar(), 5000);
+    // Manually trigger UI changes
+    // setTimeout(() => this.cdr.detectChanges(), 5000);
   }
 
   // Prompt the user to open the application
@@ -144,15 +147,5 @@ export class AppComponent {
     }
     else
       alert('You can manually open your application later if needed.');
-  }
-
-  // Reset progress bar values
-  resetProgressBar() {
-    this.progressVisible = false;
-    this.progress = 0;
-    this.progressMessage = '';
-
-    // Manually trigger change detection to ensure the UI updates
-    this.cdr.detectChanges();
   }
 }

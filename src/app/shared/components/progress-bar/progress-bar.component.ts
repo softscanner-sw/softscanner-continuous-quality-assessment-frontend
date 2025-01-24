@@ -6,7 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './progress-bar.component.css'
 })
 export class ProgressBarComponent {
-  @Input() progress: number = 0;
-  @Input() progressMessage: string = '';
+  @Input() progressLogs: string[] = [];
   visible: boolean = true;
 }

@@ -1,32 +1,43 @@
-/* Progress Bar Container */
-.progress-bar-container {
-    width: 80%;
-    margin: 20px auto;
-    height: 40px;
-    background-color: #e9ecef;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    position: relative;
-}
-
-/* Progress Bar Fill */
-.progress-bar {
-    height: 100%;
-    background-color: #4caf50;
-    transition: width 0.5s ease-in-out;
+.progress-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
-    color: white;
+    flex-direction: column;
+    margin: 20px auto;
 }
 
-/* Progress Text */
-.progress-text {
-    position: absolute;
+.progress-logs {
     width: 100%;
-    text-align: center;
-    font-size: 16px;
+    max-width: 500px;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-log {
+    font-size: 14px;
+    font-weight: bold;
     color: #333;
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.progress-log:last-child {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.progress-message {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
 }

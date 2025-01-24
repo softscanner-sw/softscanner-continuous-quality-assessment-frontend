@@ -11,9 +11,10 @@ import { QualityModelComponent } from './components/quality-model/quality-model.
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTreeModule } from '@angular/material/tree';
-import { ProgressBarComponent } from './shared/components/progress-bar/progress-bar.component';
-import { MetricsDashboardComponent } from './shared/components/metrics-dashboard/metrics-dashboard.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MetricsDashboardComponent } from './shared/components/metrics-dashboard/metrics-dashboard.component';
+import { ProgressBarComponent } from './shared/components/progress-bar/progress-bar.component';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
         MatTreeModule,
         MatCheckboxModule,
         MatIconModule,
-        NgxChartsModule
+        NgxChartsModule,
+        MatProgressSpinnerModule
     ],
     providers: [
     provideAnimationsAsync()

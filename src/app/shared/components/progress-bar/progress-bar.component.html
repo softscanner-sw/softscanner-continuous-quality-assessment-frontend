@@ -1,5 +1,8 @@
-<div *ngIf="visible" class="progress-bar-container">
-    <div class="progress-bar" [style.width.%]="progress">
-        <div class="progress-text">{{ progressMessage }}</div>
+<div class="progress-container">
+    <mat-progress-spinner *ngIf="visible" [mode]="'indeterminate'" [diameter]="80" color="primary">
+    </mat-progress-spinner>
+
+    <div class="progress-logs">
+        <div *ngFor="let log of progressLogs" class="progress-log">{{ log }}</div>
     </div>
 </div>
