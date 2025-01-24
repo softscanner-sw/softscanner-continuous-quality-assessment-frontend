@@ -1,0 +1,37 @@
+.metric-details {
+    margin-top: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.metric-details h4 {
+    color: #007bff;
+}
+
+.metric-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.metric-details li {
+    font-size: 14px;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.metric-details button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.metric-details button:hover {
+    background-color: #cc0000;
+}

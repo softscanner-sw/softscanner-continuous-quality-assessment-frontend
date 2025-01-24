@@ -28,6 +28,7 @@ export interface GoalsData {
 export interface MetricData {
   "name": string,
   "acronym": string,
+  "description": string,
   "value": any,
   "unit": string,
   "history": MetricTimestampedData[]

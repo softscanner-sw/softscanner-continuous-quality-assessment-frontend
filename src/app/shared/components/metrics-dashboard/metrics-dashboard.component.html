@@ -5,35 +5,42 @@
     <h3>{{ goal.name }}</h3>
 
     <!-- Line Chart for each metric (showing trends over time) -->
-    <ngx-charts-line-chart
-      *ngFor="let metric of goal.metrics"
-      [view]="[700, 400]"
-      [scheme]="'cool'"
-      [results]="metric.lineChartData"
-      [xAxis]="true"
-      [yAxis]="true"
-      [legend]="true"
-      [showXAxisLabel]="true"
-      [showYAxisLabel]="true"
-      [animations]="true"
-      [autoScale]="true"
-      xAxisLabel="Time"
-      [yAxisLabel]="metric.name + ' (' + metric.unit + ')'"
-    ></ngx-charts-line-chart>
+    <ngx-charts-line-chart 
+      *ngFor="let metric of goal.metrics" 
+      [view]="[700, 400]" 
+      [scheme]="'cool'" 
+      [results]="metric.lineChartData" 
+      [xAxis]="true" 
+      [yAxis]="true" 
+      [legend]="true" 
+      [showXAxisLabel]="true" 
+      [showYAxisLabel]="true" 
+      [animations]="true" 
+      [autoScale]="true" 
+      xAxisLabel="Time" 
+      [yAxisLabel]="metric.name + ' (' + metric.unit + ')'">
+    </ngx-charts-line-chart>
 
     <!-- Bar Chart showing current metric values -->
-    <ngx-charts-bar-vertical
-      [view]="[700, 400]"
-      [scheme]="'cool'"
-      [results]="goal.barChartData"
-      [xAxis]="true"
-      [yAxis]="true"
-      [legend]="true"
-      [showXAxisLabel]="true"
-      [showYAxisLabel]="true"
-      xAxisLabel="Metric"
-      yAxisLabel="Value"
-      (legendLabelClick)="onLegendClick($event)"
-    ></ngx-charts-bar-vertical>
+    <ngx-charts-bar-vertical 
+      [view]="[700, 400]" 
+      [scheme]="'cool'" 
+      [results]="getBarChartData(goal)"
+      [xAxis]="true" 
+      [yAxis]="true" 
+      [legend]="true" 
+      [showXAxisLabel]="true" 
+      [showYAxisLabel]="true" 
+      xAxisLabel="Metric" 
+      yAxisLabel="Value" 
+      (select)="onLegendClick($event, goal.name)">
+    </ngx-charts-bar-vertical>
+
+    <!-- Metric details component -->
+    <app-metric-details 
+      *ngIf="selectedMetricAcronyms[goal.name] && selectedMetric?.acronym === selectedMetricAcronyms[goal.name]"
+      [metric]="selectedMetric" 
+      (closeDetails)="closeMetricDetails(goal.name)">
+    </app-metric-details>
   </div>
 </div>

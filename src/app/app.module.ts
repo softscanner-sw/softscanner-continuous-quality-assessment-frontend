@@ -15,6 +15,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MetricsDashboardComponent } from './shared/components/metrics-dashboard/metrics-dashboard.component';
 import { ProgressBarComponent } from './shared/components/progress-bar/progress-bar.component';
+import { MetricDetailsComponent } from './shared/components/metric-details/metric-details.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { ProgressBarComponent } from './shared/components/progress-bar/progress-
         QualityModelComponent,
         MetadataFormComponent,
         ProgressBarComponent,
-        MetricsDashboardComponent
+        MetricsDashboardComponent,
+        MetricDetailsComponent
     ],
     imports: [
         BrowserModule, 
