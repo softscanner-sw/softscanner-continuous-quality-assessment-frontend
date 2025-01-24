@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { ApiService } from './services/api.service';
+import { ApiService, MetricsApiData } from './services/api.service';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ export class AppComponent {
   title = 'Continuous Quality Web Assessment';
   metadata: any = {};
   selectedGoals: string[] = [];
-  metrics: any[] = []; // Real-time metrics data
+  metrics$: Observable<MetricsApiData> = of(); // Initialize with an empty observable
   progress: number = 0;
   progressMessage: string = '';
   assessmentInProgress: boolean = false;
@@ -46,48 +47,63 @@ export class AppComponent {
       // Make progress bar visible when the assessment starts
       this.progressVisible = true;
 
-      // Start the progress stream
-      this.apiService.startProgressStream().subscribe({
-        next: (data) => {
-          console.log(`Received data from backend: ${JSON.stringify(data, null, 2)}`);
-          if (data.type === "metrics" && data.metrics) {
-            this.metrics = data.metrics;
-            this.metricsVisible = this.metrics.length > 0; // Only show if metrics exist
-            this.cdr.detectChanges(); // Force UI update
-            console.log('Updated metrics:', this.metrics);
-            console.log('Dashboard should be visible now?: ', this.metricsVisible);
-          }
-          else if (data.type === "progress" && data.message){
-            this.updateProgress(data.message);
-          }
-        },
-        error: (error) => {
-          console.error('Error receiving progress updates:', error);
-        },
-        complete: () => {
-          this.completeInstrumentation();
-        }
-      });
-
-      // console.log('Sending assessment data:', assessmentData);
-
-      // Start the instrumentation process
+      // Start the assessment process
       this.apiService.startInstrumentation(assessmentData).subscribe({
         next: (response) => {
-          console.log('Instrumentation started:', response);
+          console.log('Assessment started:', response);
+
+           // Start progress and metrics monitoring with received assessmentId
+          this.startProgressMonitoring(response.assessmentId);
+          this.startMetricsMonitoring(response.assessmentId);
         },
         error: (error) => {
-          console.error('Error starting instrumentation:', error);
+          console.error('Error starting assessment:', error);
+          alert('Failed to start assessment. Please try again.');
+          this.progressVisible = false;
         },
         complete: () => {
-          console.log('Instrumentation complete.');
+          console.log('Instrumentation request completed.');
         }
       });
 
       this.assessmentInProgress = true;
-    } else {
-      alert('Please fill out the metadata and select at least one goal.');
     }
+    else
+      alert('Please fill out the metadata and select at least one goal.');
+  }
+
+  // Start progress monitoring via SSE
+  private startProgressMonitoring(assessmentId: string) {
+    this.apiService.startProgressStream(assessmentId).subscribe({
+      next: (data) => {
+        console.log('Progress update received:', data);
+        if (data.message)
+          this.updateProgress(data.message);
+      },
+      error: (error) => {
+        console.error('Error receiving progress updates:', error);
+      },
+      complete: () => {
+        console.log('Progress stream completed.');
+      },
+    });
+  }
+
+  // Start metrics monitoring via SSE
+  private startMetricsMonitoring(assessmentId: string) {
+    this.metrics$ = this.apiService.getMetricsStream(assessmentId);
+
+    this.metrics$.subscribe({
+      next: (metricsData) => {
+        console.log('Metrics update received:', metricsData);
+        if (metricsData && metricsData.selectedGoals.length > 0)
+          this.metricsVisible = true;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error receiving metrics updates:', error);
+      },
+    });
   }
 
   // Update progress bar with the message from the server
@@ -125,9 +141,9 @@ export class AppComponent {
     if (userConfirmed && this.metadata.url) {
       // Open the application URL in a new browser tab
       window.open(this.metadata.url, '_blank');
-    } else {
-      alert('You can manually open your application later if needed.');
     }
+    else
+      alert('You can manually open your application later if needed.');
   }
 
   // Reset progress bar values

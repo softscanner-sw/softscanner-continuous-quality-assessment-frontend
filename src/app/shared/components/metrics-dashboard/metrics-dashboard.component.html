@@ -1,49 +1,39 @@
 <div class="dashboard">
-    <h2>Metrics Dashboard</h2>
-  
-    <!-- Line Chart -->
+  <h2>Quality Goals Assessment</h2>
+
+  <div *ngFor="let goal of goalsData">
+    <h3>{{ goal.name }}</h3>
+
+    <!-- Line Chart for each metric (showing trends over time) -->
     <ngx-charts-line-chart
+      *ngFor="let metric of goal.metrics"
       [view]="[700, 400]"
       [scheme]="'cool'"
-      [results]="lineChartData"
+      [results]="metric.lineChartData"
       [xAxis]="true"
       [yAxis]="true"
       [legend]="true"
       [showXAxisLabel]="true"
       [showYAxisLabel]="true"
-      [animations]="false"
+      [animations]="true"
+      [autoScale]="true"
       xAxisLabel="Time"
-      yAxisLabel="Value"
-      (legendLabelClick)="onLegendClick($event)"
-    >
-    </ngx-charts-line-chart>
-  
-    <!-- Bar Chart -->
+      [yAxisLabel]="metric.name + ' (' + metric.unit + ')'"
+    ></ngx-charts-line-chart>
+
+    <!-- Bar Chart showing current metric values -->
     <ngx-charts-bar-vertical
       [view]="[700, 400]"
       [scheme]="'cool'"
-      [results]="barChartData"
+      [results]="goal.barChartData"
       [xAxis]="true"
       [yAxis]="true"
       [legend]="true"
       [showXAxisLabel]="true"
       [showYAxisLabel]="true"
-      [animations]="false"
       xAxisLabel="Metric"
       yAxisLabel="Value"
-    >
-    </ngx-charts-bar-vertical>
-  
-    <!-- Pie Chart -->
-    <ngx-charts-pie-chart
-      [view]="[700, 400]"
-      [scheme]="'cool'"
-      [results]="pieChartData"
-      [legend]="true"
-      [labels]="true"
-      [animations]="false"
-      [labelFormatting]="formatPieLabel"
-    >
-    </ngx-charts-pie-chart>
+      (legendLabelClick)="onLegendClick($event)"
+    ></ngx-charts-bar-vertical>
   </div>
-  
+</div>

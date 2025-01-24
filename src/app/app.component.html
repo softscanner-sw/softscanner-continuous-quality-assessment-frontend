@@ -12,7 +12,7 @@
   [progressMessage]="progressMessage"></app-progress-bar>
   
    <!-- Metrics Dashboard -->
-  <app-metrics-dashboard *ngIf="metricsVisible" [metrics]="metrics"></app-metrics-dashboard>
+  <app-metrics-dashboard *ngIf="metricsVisible" [metrics$]="metrics$"></app-metrics-dashboard>
 
   <!-- Start Assessment Button -->
   <button class="start-assessment-btn" [disabled]="assessmentInProgress"
