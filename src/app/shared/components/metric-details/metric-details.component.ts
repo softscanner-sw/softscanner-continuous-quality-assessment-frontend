@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ProcessedMetricData } from '../metrics-dashboard/metrics-dashboard.component';
+import { MetricData } from '../../models/types.model';
 
 @Component({
   selector: 'app-metric-details',
@@ -7,7 +7,7 @@ import { ProcessedMetricData } from '../metrics-dashboard/metrics-dashboard.comp
   styleUrl: './metric-details.component.css'
 })
 export class MetricDetailsComponent {
-  @Input() metric: ProcessedMetricData | null = null;
+  @Input() metric: MetricData | null = null;
   @Output() closeDetails = new EventEmitter<void>();
 
   close() {

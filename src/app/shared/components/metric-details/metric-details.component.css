@@ -1,37 +1,22 @@
 .metric-details {
-    margin-top: 15px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f1f1f1;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: #ffffff;
+    font-family: 'Roboto', sans-serif;
 }
-
 .metric-details h4 {
-    color: #007bff;
+    font-size: 20px;
+    color: #333;
 }
-
-.metric-details ul {
-    list-style: none;
-    padding: 0;
-}
-
-.metric-details li {
-    font-size: 14px;
-    padding: 5px 0;
-    border-bottom: 1px solid #ddd;
-}
-
 .metric-details button {
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 10px;
+    background-color: #f44336;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
 }
-
 .metric-details button:hover {
-    background-color: #cc0000;
+    background-color: #d32f2f;
 }

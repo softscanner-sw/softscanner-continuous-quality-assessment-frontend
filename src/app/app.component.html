@@ -7,15 +7,25 @@
   <!-- Quality Model Section -->
   <app-quality-model (goalsSelected)="onGoalsSelected($event)"></app-quality-model>
 
-  <!-- Circular Progress Component -->
-  <app-progress-bar *ngIf="progressVisible" [progressLogs]="progressMessages"></app-progress-bar>
+  <!-- Progress Bar Section -->
+  <app-progress-bar
+    *ngIf="progressVisible"
+    [progressLogs]="progressMessages"
+  ></app-progress-bar>
 
-  <!-- Metrics Dashboard -->
-  <app-metrics-dashboard *ngIf="metricsVisible" [metrics$]="metrics$"></app-metrics-dashboard>
+  <!-- Collapsible Goal Panels Section -->
+  <app-collapsible-goal-panels
+    *ngIf="goalsData.length > 0"
+    [goalsData]="goalsData"
+  ></app-collapsible-goal-panels>
 
   <!-- Start Assessment Button -->
-  <button class="start-assessment-btn" [disabled]="assessmentInProgress"
-    [class.assessment-running]="assessmentInProgress" (click)="startAssessment()">
+  <button
+    class="start-assessment-btn"
+    [disabled]="assessmentInProgress"
+    [class.assessment-running]="assessmentInProgress"
+    (click)="startAssessment()"
+  >
     {{ assessmentInProgress ? 'Assessment In Progress...' : 'Start Quality Assessment' }}
   </button>
 </div>

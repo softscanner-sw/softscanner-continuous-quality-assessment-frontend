@@ -1,16 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-
-export interface GoalNode {
-  name: string;
-  description: string;
-  children?: GoalNode[];
-  x?: number;
-  y?: number;
-  parent?: GoalNode;
-  expanded?: boolean;
-  visible?: boolean;
-}
+import { GoalNode } from '../../shared/models/types.model';
 
 @Component({
   selector: 'app-quality-model',

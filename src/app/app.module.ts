@@ -17,6 +17,8 @@ import { MetricsDashboardComponent } from './shared/components/metrics-dashboard
 import { ProgressBarComponent } from './shared/components/progress-bar/progress-bar.component';
 import { MetricDetailsComponent } from './shared/components/metric-details/metric-details.component';
 import { GoalDetailsComponent } from './shared/components/goal-details/goal-details.component';
+import { GoalAssessmentOverviewComponent } from './shared/components/goal-assessment-overview/goal-assessment-overview.component';
+import { CollapsibleGoalPanelsComponent } from './shared/components/collapsible-goal-panels/collapsible-goal-panels.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +28,9 @@ import { GoalDetailsComponent } from './shared/components/goal-details/goal-deta
         ProgressBarComponent,
         MetricsDashboardComponent,
         MetricDetailsComponent,
-        GoalDetailsComponent
+        GoalDetailsComponent,
+        GoalAssessmentOverviewComponent,
+        CollapsibleGoalPanelsComponent
     ],
     imports: [
         BrowserModule, 

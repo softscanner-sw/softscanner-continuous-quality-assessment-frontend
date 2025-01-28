@@ -1,0 +1,56 @@
+.goal-panel {
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    /* Ensure full width */
+}
+
+.goal-panel:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.panel-header {
+    display: flex;
+    /* Align text and content properly */
+    justify-content: space-between;
+    /* Add spacing */
+    align-items: center;
+    /* Center vertically */
+    padding: 10px 15px;
+    /* Adjust padding for better aesthetics */
+    background: linear-gradient(to right, #6c63ff, #4a90e2);
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    /* Make the button span full width */
+}
+
+.panel-header:hover {
+    background-color: #0056b3;
+    transform: scale(1.02);
+}
+
+.panel-content {
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-left: 3px solid #007bff;
+    /* Add a visual indicator for expanded state */
+    border-radius: 0 0 8px 8px;
+}
+
+/* Ensure goal panels take the full width of the container */
+.goal-panels {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* Add spacing between panels */
+    width: 100%;
+}

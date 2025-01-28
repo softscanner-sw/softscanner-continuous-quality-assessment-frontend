@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { GoalNode } from '../../../components/quality-model/quality-model.component';
+import { GoalNode } from '../../models/types.model';
 
 @Component({
   selector: 'app-goal-details',

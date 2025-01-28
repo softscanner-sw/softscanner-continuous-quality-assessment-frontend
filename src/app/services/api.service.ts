@@ -1,50 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-
-export interface ProgressApiData {
-  type: 'progress'
-  message?: string; // For progress updates
-}
-
-export interface MetricsApiData {
-  metadata: AppMetadata,
-  selectedGoals: GoalsData[]
-}
-
-export interface AppMetadata {
-  "_name": string,
-  "_type": string,
-  "_technology": string,
-  "_path": string,
-  "_url": string,
-}
-
-export interface GoalsData {
-  name: string,
-  metrics: MetricData[]
-}
-
-export interface MetricData {
-  "name": string,
-  "acronym": string,
-  "description": string,
-  "value": any,
-  "unit": string,
-  "history": MetricTimestampedData[]
-}
-
-export interface MetricTimestampedData {
-  timestamp: string,
-  value: any
-}
+import { AppMetadata, AssessmentsApiData, ProgressApiData } from '../shared/models/types.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   private backendUrl = 'http://localhost:3000/api';
-  private metricsSubject = new Subject<MetricsApiData>();
+  private assessmentsSubject = new Subject<AssessmentsApiData>();
 
   constructor(private http: HttpClient) { }
 
@@ -61,8 +25,9 @@ export class ApiService {
    * @param data Object containing metadata and selected goals.
    * @returns Observable with the server response containing the assessment ID.
    */
-  startInstrumentation(data: any): Observable<{ assessmentId: string; progressEndpoint: string; metricsEndpoint: string }> {
-    return this.http.post<{ assessmentId: string; progressEndpoint: string; metricsEndpoint: string }>(
+  startAssessment(data: { metadata: AppMetadata, selectedGoals: string[] }):
+    Observable<{ assessmentId: string; progressEndpoint: string; assessmentEndpoint: string }> {
+    return this.http.post<{ assessmentId: string; progressEndpoint: string; assessmentEndpoint: string }>(
       `${this.backendUrl}/assessment`,
       data,
       { headers: { 'Content-Type': 'application/json' } }
@@ -104,32 +69,32 @@ export class ApiService {
   }
 
   /**
-  * Starts an SSE stream to receive metrics updates.
-  * @param assessmentId The assessment ID to track metrics updates.
-  * @returns Observable providing metrics updates.
-  */
-  getMetricsStream(assessmentId: string): Observable<MetricsApiData> {
+   * Starts an SSE stream to receive assessment results.
+   * @param assessmentId The assessment ID to track results.
+   * @returns Observable providing metrics updates.
+   */
+  getAssessmentsStream(assessmentId: string): Observable<AssessmentsApiData> {
     return new Observable((observer) => {
       if (!assessmentId) {
         observer.error('Assessment ID is not set. Start assessment first.');
         return;
       }
 
-      const eventSource = new EventSource(`${this.backendUrl}/metrics?assessmentId=${assessmentId}`);
+      const eventSource = new EventSource(`${this.backendUrl}/assessments?assessmentId=${assessmentId}`);
 
       eventSource.onmessage = (event) => {
         try {
-          const data: MetricsApiData = JSON.parse(event.data);
-          this.metricsSubject.next(data);
+          const data: AssessmentsApiData = JSON.parse(event.data);
+          this.assessmentsSubject.next(data);
           observer.next(data);
         } catch (error) {
-          console.error('Error parsing metrics SSE:', error);
+          console.error('Error parsing assessments SSE:', error);
           observer.error(error);
         }
       };
 
       eventSource.onerror = (error) => {
-        console.error('Error with metrics SSE stream:', error);
+        console.error('Error with assessments SSE stream:', error);
         observer.error(error);
         eventSource.close();
       };
@@ -139,10 +104,10 @@ export class ApiService {
   }
 
   /**
-   * Provides an observable for the latest metrics updates.
-   * @returns Observable emitting metrics updates.
+   * Provides an observable for the latest assessment updates.
+   * @returns Observable emitting assessment updates.
    */
-  getMetricsUpdates(): Observable<MetricsApiData> {
-    return this.metricsSubject.asObservable();
+  getAssessmentsUpdates(): Observable<AssessmentsApiData> {
+    return this.assessmentsSubject.asObservable();
   }
 }

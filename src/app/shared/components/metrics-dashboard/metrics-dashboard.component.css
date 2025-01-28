@@ -1,6 +1,4 @@
 .dashboard {
-  border: 2px solid red;
-  /* Temporary border for debugging */
   margin: 20px;
   padding: 20px;
   background-color: #f9f9f9;
@@ -10,14 +8,17 @@
 
 h2 {
   text-align: center;
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: #333;
 }
 
-ngx-charts-legend-entry {
-  cursor: pointer;
-  transition: color 0.3s;
+.metric-section {
+  margin-bottom: 30px;
 }
 
-ngx-charts-legend-entry:hover {
-  color: #007bff;
-  /* Change color on hover */
+h3 {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 10px;
 }

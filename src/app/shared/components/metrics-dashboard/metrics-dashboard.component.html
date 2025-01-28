@@ -1,47 +1,46 @@
 <div class="dashboard">
-  <h2>Quality Goals Assessment</h2>
+  <h2>Metrics Dashboard for {{ selectedGoal.name }}</h2>
+    <!-- Individual Metric Charts -->
+  <div *ngFor="let metric of selectedGoal.metrics" class="metric-section">
+    <h3>{{ metric.name }} ({{ metric.unit }})</h3>
 
-  <div *ngFor="let goal of goalsData">
-    <h3>{{ goal.name }}</h3>
+    <!-- Line Chart for Metric History -->
+    <ngx-charts-line-chart
+      [view]="[700, 400]"
+      [scheme]="'cool'"
+      [results]="getMetricLineChartData(metric)"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="true"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [animations]="true"
+      [autoScale]="true"
+      xAxisLabel="Time"
+      yAxisLabel="{{ metric.acronym }} ({{ metric.unit }})"
+      (select)="onLegendClick($event, selectedGoal.name)"
+    ></ngx-charts-line-chart>
 
-    <!-- Line Chart for each metric (showing trends over time) -->
-    <ngx-charts-line-chart 
-      *ngFor="let metric of goal.metrics" 
-      [view]="[700, 400]" 
-      [scheme]="'cool'" 
-      [results]="metric.lineChartData" 
-      [xAxis]="true" 
-      [yAxis]="true" 
-      [legend]="true" 
-      [showXAxisLabel]="true" 
-      [showYAxisLabel]="true" 
-      [animations]="true" 
-      [autoScale]="true" 
-      xAxisLabel="Time" 
-      [yAxisLabel]="metric.name + ' (' + metric.unit + ')'"
-      (select)="onLegendClick($event, goal.name)">
-    </ngx-charts-line-chart>
-
-    <!-- Bar Chart showing current metric values -->
-    <ngx-charts-bar-vertical 
-      [view]="[700, 400]" 
-      [scheme]="'cool'" 
-      [results]="getBarChartData(goal)"
-      [xAxis]="true" 
-      [yAxis]="true" 
-      [legend]="true" 
-      [showXAxisLabel]="true" 
-      [showYAxisLabel]="true" 
-      xAxisLabel="Metric" 
-      yAxisLabel="Value" 
-      (select)="onLegendClick($event, goal.name)">
-    </ngx-charts-bar-vertical>
+    <!-- Bar Chart for Current Metric Value -->
+    <ngx-charts-bar-vertical
+      [view]="[700, 400]"
+      [scheme]="'cool'"
+      [results]="getMetricBarChartData(metric)"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="true"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      xAxisLabel="Metric"
+      yAxisLabel="Value"
+      (select)="onLegendClick($event, selectedGoal.name)"
+    ></ngx-charts-bar-vertical>
 
     <!-- Metric details component -->
     <app-metric-details 
-      *ngIf="selectedMetricAcronyms[goal.name] && selectedMetric?.acronym === selectedMetricAcronyms[goal.name]"
+      *ngIf="selectedMetricAcronyms[selectedGoal.name] && selectedMetric?.acronym === selectedMetricAcronyms[selectedGoal.name]"
       [metric]="selectedMetric" 
-      (closeDetails)="closeMetricDetails(goal.name)">
+      (closeDetails)="closeMetricDetails(selectedGoal.name)">
     </app-metric-details>
   </div>
 </div>

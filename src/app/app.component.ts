@@ -1,21 +1,24 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
-import { ApiService, MetricsApiData } from './services/api.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { ApiService } from './services/api.service';
+import { AssessmentsApiData, GoalsData } from './shared/models/types.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
   title = 'Continuous Quality Web Assessment';
   metadata: any = {};
   selectedGoals: string[] = [];
-  metrics$: Observable<MetricsApiData> = of(); // Initialize with an empty observable
+  assessments$: Observable<AssessmentsApiData> = of(); // Initialize with an empty observable
   progressMessages: string[] = [];
   assessmentInProgress: boolean = false;
+  goalsData: GoalsData[] = []; // Use raw GoalsData
   progressVisible: boolean = false; // Initially hidden
-  metricsVisible: boolean = false; // Initially hidden
+  // metricsVisible: boolean = false; // Initially hidden
 
   constructor(private apiService: ApiService, private cdr: ChangeDetectorRef) { }
 
@@ -47,13 +50,13 @@ export class AppComponent {
       this.progressVisible = true;
 
       // Start the assessment process
-      this.apiService.startInstrumentation(assessmentData).subscribe({
+      this.apiService.startAssessment(assessmentData).subscribe({
         next: (response) => {
           console.log('Assessment started:', response);
 
           // Start progress and metrics monitoring with received assessmentId
           this.startProgressMonitoring(response.assessmentId);
-          this.startMetricsMonitoring(response.assessmentId);
+          this.startAssessmentsMonitoring(response.assessmentId);
         },
         error: (error) => {
           console.error('Error starting assessment:', error);
@@ -88,25 +91,8 @@ export class AppComponent {
     });
   }
 
-  // Start metrics monitoring via SSE
-  private startMetricsMonitoring(assessmentId: string) {
-    this.metrics$ = this.apiService.getMetricsStream(assessmentId);
-
-    this.metrics$.subscribe({
-      next: (metricsData) => {
-        console.log('Metrics update received:', metricsData);
-        if (metricsData && metricsData.selectedGoals.length > 0)
-          this.metricsVisible = true;
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error('Error receiving metrics updates:', error);
-      },
-    });
-  }
-
   // Update progress bar with the message from the server
-  updateProgress(message: string) {
+  private updateProgress(message: string) {
     // Append new message to progress logs
     this.progressMessages.push(message);
 
@@ -147,5 +133,25 @@ export class AppComponent {
     }
     else
       alert('You can manually open your application later if needed.');
+  }
+
+  // Start metrics monitoring via SSE
+  private startAssessmentsMonitoring(assessmentId: string) {
+    this.assessments$ = this.apiService.getAssessmentsStream(assessmentId);
+
+    this.assessments$.subscribe({
+      next: (data) => {
+        console.log('Assessment update received:', data);
+        this.processAssessmentData(data);
+      },
+      error: (error) => {
+        console.error('Error receiving assessment updates:', error);
+      },
+    });
+  }
+
+  private processAssessmentData(data: AssessmentsApiData) {
+    this.goalsData = [...data.selectedGoals]; // Ensures a new array reference
+    this.cdr.markForCheck(); // Ensure change detection
   }
 }

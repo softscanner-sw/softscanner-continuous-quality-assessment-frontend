@@ -1,18 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Observable, of, Subscription } from 'rxjs';
-import { GoalsData, MetricData, MetricsApiData } from '../../../services/api.service';
-
-type LineChartData = { name: string; series: { name: string; value: number }[] }[];
-type BarChartData = { name: string, value: any }[];
-
-export interface ProcessedMetricData extends MetricData {
-  lineChartData: LineChartData;
-  barChartData: BarChartData;
-}
-
-interface ProcessedGoalData extends GoalsData {
-  metrics: ProcessedMetricData[];
-}
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChartDataService } from '../../../services/chart-data.service';
+import { BarChartData, GoalsData, LineChartData, MetricData } from '../../models/types.model';
 
 @Component({
   selector: 'app-metrics-dashboard',
@@ -20,77 +8,19 @@ interface ProcessedGoalData extends GoalsData {
   styleUrl: './metrics-dashboard.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MetricsDashboardComponent implements OnInit, OnDestroy {
-  @Input() metrics$: Observable<MetricsApiData> = of(); // Initialize with an empty observable
-  goalsData: ProcessedGoalData[] = [];
-  selectedMetric: ProcessedMetricData | null = null;
-  private subscription: Subscription | undefined;
+export class MetricsDashboardComponent {
+  @Input() selectedGoal!: GoalsData; // Expecting a single goal as input
+  selectedMetric: MetricData | null = null;
   selectedMetricAcronyms: { [goalName: string]: string | null } = {};  // Store selected metric acronyms per goal
 
-  constructor(private cdr: ChangeDetectorRef) { }
-
-  ngOnInit(): void {
-    this.subscription = this.metrics$.subscribe({
-      next: (metricsData: MetricsApiData) => {
-        if (!metricsData || !metricsData.selectedGoals.length) {
-          console.warn('Received empty metrics, skipping update.');
-          return;
-        }
-
-        console.log('Metrics update received:', metricsData);
-        this.processMetrics(metricsData);
-        this.cdr.detectChanges(); // Ensure UI updates
-      },
-      error: (error) => console.error('Error processing metrics:', error),
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-  }
-
-  private processMetrics(data: MetricsApiData): void {
-    this.goalsData = data.selectedGoals.map((goal: GoalsData) => ({
-      ...goal,
-      metrics: goal.metrics.map((metric: MetricData) => ({
-        ...metric,
-
-        // Prepare data for line chart
-        lineChartData: [
-          {
-            name: metric.acronym || metric.name,
-            series: metric.history.length
-              ? metric.history.map((entry) => ({
-                name: new Date(entry.timestamp).toLocaleTimeString(),
-                value: entry.value,
-              }))
-              : [{ name: 'No Data', value: 0 }],
-          },
-        ],
-        // Prepare data for bar chart
-        barChartData: [
-          {
-            name: `${metric.acronym || metric.name} (${metric.unit})`, // Use acronym if available
-            value: metric.value,
-          },
-        ],
-      })),
-    }));
-
-    // Initialize selected metrics map
-    this.goalsData.forEach(goal => {
-      this.selectedMetricAcronyms[goal.name] = null;
-    });
-
-    console.log('Processed goals data:', this.goalsData);
-  }
+  constructor(private chartDataService: ChartDataService, private cdr: ChangeDetectorRef) { }
 
   onLegendClick(event: any, goalName: string): void {
     // console.log('Legend click event:', event); // Debug the event
 
     // Extract acronym and find corresponding metric
     const metricAcronym = event.split(' ')[0]; // Extract acronym from legend
-    const metric = this.findMetricByAcronym(goalName, metricAcronym);
+    const metric = this.findMetricByAcronym(metricAcronym);
 
     // Toggle the metric details visibility
     if (metric) {
@@ -105,7 +35,6 @@ export class MetricsDashboardComponent implements OnInit, OnDestroy {
     // console.log('Selected Metric Acronyms in the map for the selected goal:', this.selectedMetricAcronyms[goalName]);
     // console.log('Selected Metric Acronym:', this.selectedMetric?.acronym);
 
-
     this.cdr.detectChanges();
   }
 
@@ -115,15 +44,17 @@ export class MetricsDashboardComponent implements OnInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
-  getBarChartData(goal: ProcessedGoalData): BarChartData {
-    return goal.metrics.map(metric => ({
-      name: `${metric.acronym || metric.name} (${metric.unit})`,
-      value: metric.value,
-    }));
+  private findMetricByAcronym(acronym: string): MetricData | null {
+    return this.selectedGoal.metrics.find((metric) => metric.acronym === acronym) || null;
   }
 
-  private findMetricByAcronym(goalName: string, acronym: string): ProcessedMetricData | null {
-    const goal = this.goalsData.find(g => g.name === goalName);
-    return goal ? goal.metrics.find((metric) => metric.acronym === acronym) || null : null;
+  // Generate line chart data for all metrics of the goal
+  getMetricLineChartData(metric: MetricData): LineChartData {
+    return this.chartDataService.generateMetricLineChartData(metric);
+  }
+
+  // Generate bar chart data for the goal's metrics
+  getMetricBarChartData(metric: MetricData): BarChartData {
+    return this.chartDataService.generateMetricBarChartData(metric);
   }
 }

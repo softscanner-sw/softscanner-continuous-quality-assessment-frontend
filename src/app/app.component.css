@@ -1,4 +1,4 @@
-/* App Container Styling */
+/* Container Styling */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -25,12 +25,7 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* General Form Button Styling */
-button[type="submit"] {
-    width: 100%;
-}
-
-/* Start Assessment Button Styling */
+/* Assessment Button Styling */
 .start-assessment-btn {
     display: block;
     margin: 30px auto 0;
@@ -50,6 +45,5 @@ button[type="submit"] {
 
 .start-assessment-btn.assessment-running {
     background-color: #ff9800;
-    /* Orange during assessment */
     cursor: not-allowed;
 }
