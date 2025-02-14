@@ -1,20 +1,30 @@
+/* Styles for the goal assessment overview component */
 .goal-assessment-overview {
+    /* Adds space below the component */
     margin-bottom: 20px;
+    /* Adds inner spacing inside the component */
     padding: 20px;
+    /* Light gray background for better contrast */
     background-color: #f9f9f9;
+    /* Rounded corners for a modern UI */
     border-radius: 10px;
+    /* Subtle shadow for a card-like effect */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Headings */
+/* Styling for headings */
 h3 {
+    /* Space below the heading */
     margin-bottom: 20px;
+    /* Sets the font size for the heading */
     font-size: 20px;
+    /* Dark gray text color for better readability */
     color: #333;
 }
 
-/* Chart Styles */
+/* Styles for ngx-charts components */
 ngx-charts-line-chart,
 ngx-charts-bar-horizontal {
+    /* Adds space above the charts */
     margin-top: 20px;
 }

@@ -3,40 +3,51 @@ import { Observable, of } from 'rxjs';
 import { ApiService } from './services/api.service';
 import { AssessmentsApiData, GoalsData } from './shared/models/types.model';
 
+/**
+ * The main component of the application.
+ * It coordinates metadata submission, goal selection, progress monitoring, and quality assessment.
+ */
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush  // Optimize rendering using OnPush strategy
 })
 export class AppComponent {
-  title = 'Continuous Quality Web Assessment';
-  metadata: any = {};
-  selectedGoals: string[] = [];
-  assessments$: Observable<AssessmentsApiData> = of(); // Initialize with an empty observable
-  progressMessages: string[] = [];
-  assessmentInProgress: boolean = false;
-  goalsData: GoalsData[] = []; // Use raw GoalsData
-  progressVisible: boolean = false; // Initially hidden
-  // metricsVisible: boolean = false; // Initially hidden
+  title = 'SoftScanner: Continuous Quality Web Assessment UI'; // Application title
+  metadata: any = {}; // Holds application metadata
+  selectedGoals: string[] = []; // Holds selected goal names
+  assessments$: Observable<AssessmentsApiData> = of(); // Observable for assessment data
+  progressMessages: string[] = []; // Progress messages for the progress bar
+  assessmentInProgress: boolean = false; // Flag to indicate if assessment is running
+  goalsData: GoalsData[] = []; // Array to store received goals and their assessments
+  progressVisible: boolean = false; // Flag to show or hide the progress bar
 
   constructor(private apiService: ApiService, private cdr: ChangeDetectorRef) { }
 
-  // Handle metadata submission
+  /**
+   * Handle metadata submission from the metadata form.
+   * @param metadata - The submitted metadata
+   */
   onMetadataSubmit(metadata: any) {
-    // console.log('Received metadata from form:', metadata);
     this.metadata = metadata;
   }
 
-  // Handle selected goals from the Quality Model component
+  /**
+   * Handle selected goals from the Quality Model component.
+   * @param goals - Array of selected goal names
+   */
   onGoalsSelected(goals: string[]) {
     this.selectedGoals = goals;
   }
 
-  // Combine metadata and selected goals into a single request
+  /**
+   * Start the quality assessment process.
+   * Combines metadata and selected goals into a single request and triggers the assessment.
+   */
   startAssessment() {
     if (this.assessmentInProgress) {
-      alert('Assessment is already in progress. Please wait for it to complete.');
+      alert('AppComponent: Assessment is already in progress. Please wait for it to complete.');
       return;
     }
 
@@ -46,57 +57,63 @@ export class AppComponent {
         selectedGoals: this.selectedGoals,
       };
 
-      // Make progress bar visible when the assessment starts
+      // Show progress bar when the assessment starts
       this.progressVisible = true;
 
-      // Start the assessment process
+      // Start assessment by sending a request to the backend
       this.apiService.startAssessment(assessmentData).subscribe({
         next: (response) => {
-          console.log('Assessment started:', response);
+          console.log('AppComponent: Assessment started:', response);
 
           // Start progress and metrics monitoring with received assessmentId
           this.startProgressMonitoring(response.assessmentId);
           this.startAssessmentsMonitoring(response.assessmentId);
         },
         error: (error) => {
-          console.error('Error starting assessment:', error);
-          alert('Failed to start assessment. Please try again.');
+          console.error('AppComponent: Error starting assessment:', error);
+          alert('AppComponent: Failed to start assessment. Please try again.');
           this.progressVisible = false;
         },
         complete: () => {
-          console.log('Instrumentation request completed.');
+          console.log('AppComponent: Instrumentation request completed.');
         }
       });
 
       this.assessmentInProgress = true;
     }
     else
-      alert('Please fill out the metadata and select at least one goal.');
+      alert('AppComponent: Please fill out the metadata and select at least one goal.');
   }
 
-  // Start progress monitoring via SSE
+  /**
+   * Start monitoring progress updates from the server via Server-Sent Events (SSE).
+   * @param assessmentId - The ID of the assessment
+   */
   private startProgressMonitoring(assessmentId: string) {
     this.apiService.startProgressStream(assessmentId).subscribe({
       next: (data) => {
-        console.log('Progress update received:', data);
+        console.log('AppComponent: Progress update received:', data);
         if (data.message)
           this.updateProgress(data.message);
       },
       error: (error) => {
-        console.error('Error receiving progress updates:', error);
+        console.error('AppComponent: Error receiving progress updates:', error);
       },
       complete: () => {
-        console.log('Progress stream completed.');
+        console.log('AppComponent: Progress stream completed.');
       },
     });
   }
 
-  // Update progress bar with the message from the server
+  /**
+   * Update progress messages and ensure the progress bar is visible.
+   * @param message - Progress message from the server
+   */
   private updateProgress(message: string) {
     // Append new message to progress logs
     this.progressMessages.push(message);
 
-    // Ensure only last 100 messages are displayed
+    // Keep only the last 100 messages
     if (this.progressMessages.length > 100) {
       this.progressMessages.shift();
     }
@@ -108,24 +125,22 @@ export class AppComponent {
       this.completeInstrumentation();
   }
 
-  // Handle instrumentation completion
+  /**
+   * Handle completion of the instrumentation process.
+   * Prompt the user to open the application in a browser.
+   */
   completeInstrumentation() {
-    // this.progress = 100;
     this.assessmentInProgress = false;
-
 
     // Prompt the user to open their application in a browser
     this.promptToOpenApplication();
-
-    // Manually trigger UI changes
-    // setTimeout(() => this.cdr.detectChanges(), 5000);
   }
 
-  // Prompt the user to open the application
+  /**
+   * Prompt the user to open the instrumented application in a browser.
+   */
   promptToOpenApplication() {
-    const userConfirmed = confirm(
-      'Instrumentation is complete. Do you want to open your application to interact with it?'
-    );
+    const userConfirmed = confirm('Instrumentation is complete. Do you want to open your application to interact with it?');
 
     if (userConfirmed && this.metadata.url) {
       // Open the application URL in a new browser tab
@@ -135,21 +150,27 @@ export class AppComponent {
       alert('You can manually open your application later if needed.');
   }
 
-  // Start metrics monitoring via SSE
+  /**
+   * Start monitoring assessment data updates via SSE.
+   * @param assessmentId - The ID of the assessment
+   */
   private startAssessmentsMonitoring(assessmentId: string) {
     this.assessments$ = this.apiService.getAssessmentsStream(assessmentId);
-
     this.assessments$.subscribe({
       next: (data) => {
-        console.log('Assessment update received:', data);
+        console.log('AppComponent: Assessment update received:', data);
         this.processAssessmentData(data);
       },
       error: (error) => {
-        console.error('Error receiving assessment updates:', error);
+        console.error('AppComponent: Error receiving assessment updates:', error);
       },
     });
   }
 
+  /**
+   * Process the received assessment data and update the UI.
+   * @param data - The assessment data
+   */
   private processAssessmentData(data: AssessmentsApiData) {
     this.goalsData = [...data.selectedGoals]; // Ensures a new array reference
     this.cdr.markForCheck(); // Ensure change detection

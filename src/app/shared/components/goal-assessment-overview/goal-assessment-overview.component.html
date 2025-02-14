@@ -1,8 +1,9 @@
 <div class="goal-assessment-overview">
+  <!-- Goal title and description -->
   <h3>{{ goal.name }}</h3>
   <p>{{ goal.description }}</p>
 
-  <!-- Global Assessment Score Evolution -->
+  <!-- Line chart displaying the global assessment score evolution over time -->
   <ngx-charts-line-chart
   [view]="[700, 400]"
   [scheme]="'cool'"
@@ -18,7 +19,7 @@
   (select)="onGoalLegendClick($event)"
   ></ngx-charts-line-chart>
 
-  <!-- Metrics Contribution Breakdown -->
+  <!-- Bar chart displaying the metrics contribution breakdown -->
     <ngx-charts-bar-horizontal
     [view]="[700, 300]"
     [scheme]="'cool'"
@@ -33,14 +34,14 @@
     (select)="onMetricLegendClick($event)"
   ></ngx-charts-bar-horizontal>
 
-  <!-- Goal Details Component -->
+  <!-- Goal details component (shown when a goal is selected) -->
   <app-goal-details 
     *ngIf="goalSelected"
     [goal]="goal"
     (closeDetails)="closeGoalDetails()">
   </app-goal-details>
 
-  <!-- Metric details component -->
+  <!-- Metric details component (shown when a metric is selected) -->
   <app-metric-details 
   *ngIf="metricSelected"
   [metric]="selectedMetric" 

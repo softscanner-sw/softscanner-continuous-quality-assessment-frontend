@@ -2,13 +2,17 @@ import { Injectable } from '@angular/core';
 import { BarChartData, GoalsData, LineChartData, MetricData } from '../shared/models/types.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' // This service will be available throughout the application.
 })
 export class ChartDataService {
 
   constructor() { }
 
-  // Generate LineChartData for a goal
+  /**
+   * Generates `LineChartData` for the global score history of a specific goal.
+   * @param goal The goal for which to generate the global score data.
+   * @returns An array of `LineChartData` representing the goal's global score over time.
+   */
   generateGlobalScoreData(goal: GoalsData): LineChartData {
     return [
       {
@@ -21,8 +25,11 @@ export class ChartDataService {
     ];
   }
 
-
-  // Generate BarChartData for a goal
+  /**
+   * Generates `BarChartData` representing the contribution of each metric to a specific goal.
+   * @param goal The goal for which to generate metrics contribution data.
+   * @returns An array of `BarChartData` representing the average contribution of each metric.
+   */
   generateMetricsContributionData(goal: GoalsData): BarChartData {
     if (!goal.assessments.length) return []; // If no assessments exist, return empty array
 
@@ -38,14 +45,16 @@ export class ChartDataService {
 
       return {
         name: metric.acronym || metric.name,
-        value: avgValue * 100, // Convert to percentage
+        value: avgValue * 100, // Convert value to percentage
       };
     }).filter(entry => entry.value !== undefined);
   }
 
-
-
-  // Generate LineChartData for a specific metric
+  /**
+   * Generates `LineChartData` for a specific metric's historical data.
+   * @param metric The metric for which to generate the line chart data.
+   * @returns An array of `LineChartData` representing the metric's values over time.
+   */
   generateMetricLineChartData(metric: MetricData): LineChartData {
     return [
       {
@@ -58,7 +67,11 @@ export class ChartDataService {
     ];
   }
 
-  // Generate BarChartData for a specific metric
+  /**
+   * Generates `BarChartData` representing the latest value of a specific metric.
+   * @param metric The metric for which to generate the bar chart data.
+   * @returns An array of `BarChartData` representing the metric's current value.
+   */
   generateMetricBarChartData(metric: MetricData): BarChartData {
     return [
       {

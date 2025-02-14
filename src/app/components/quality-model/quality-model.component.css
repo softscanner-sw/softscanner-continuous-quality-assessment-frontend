@@ -1,7 +1,7 @@
-/* Quality Container */
+/* Container for the entire quality model component */
 .quality-container {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: auto; /* Enables horizontal scrolling */
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -9,7 +9,7 @@
     white-space: nowrap;
 }
 
-/* SVG Container */
+/* Container for the SVG visualization (scrollable) */
 .svg-container {
     display: inline-block;
     overflow-x: auto;
@@ -17,7 +17,7 @@
     border: 1px solid #ccc;
 }
 
-/* Rectangular Nodes Styling */
+/* Styling for rectangular nodes in the model's tree */
 rect {
     cursor: pointer;
     stroke: #333;
@@ -26,10 +26,11 @@ rect {
 }
 
 rect:hover {
+    /* Highlight color on hover */
     fill: #6c63ff;
 }
 
-/* Node Labels */
+/* Styling for node labels */
 .node-label {
     font-weight: bold;
     font-size: 14px;
@@ -42,7 +43,7 @@ rect:hover {
     height: 100%;
 }
 
-/* Expand/Collapse Icon */
+/* Icon for expanding/collapsing nodes */
 .expand-icon {
     font-size: 18px;
     font-weight: bold;
@@ -51,10 +52,11 @@ rect:hover {
 }
 
 .expand-icon:hover {
+    /* Change icon color on hover */
     fill: #0056b3;
 }
 
-/* Contextual Menu Styling */
+/* Contextual menu styling for goal details */
 .contextual-menu {
     position: absolute;
     background-color: #fff;
@@ -70,7 +72,7 @@ rect:hover {
     box-sizing: border-box;
 }
 
-/* Menu Items Styling */
+/* Styling for individual menu items */
 .menu-item {
     display: flex;
     align-items: center;

@@ -1,33 +1,47 @@
-/* Container Styling */
+/* General container styling for the application */
 .container {
+    /* Restrict maximum width of the container */
     max-width: 1200px;
+    /* Center the container horizontally */
     margin: 0 auto;
+    /* Use a clean, readable font */
     font-family: Arial, sans-serif;
 }
 
-/* Page Heading Styling */
+/* Styling for the main page heading */
 h1 {
+    /* Center-align the heading */
     text-align: center;
+    /* Set a dark gray color */
     color: #333;
 }
 
-/* Shared Button Styling */
+/* General button styling used across the application */
 button {
+    /* Add padding for clickable size */
     padding: 12px 20px;
+    /* Set the primary color */
     background-color: #007bff;
+    /* White text for contrast */
     color: white;
+    /* Remove default border */
     border: none;
+    /* Rounded corners */
     border-radius: 5px;
+    /* Pointer cursor on hover */
     cursor: pointer;
 }
 
+/* Button hover effect for better user feedback */
 button:hover {
+    /* Darker shade of blue on hover */
     background-color: #0056b3;
 }
 
-/* Assessment Button Styling */
+/* Specific styling for the "Start Quality Assessment" button */
 .start-assessment-btn {
     display: block;
+    /* Center-align with margin at the top */
     margin: 30px auto 0;
     padding: 12px 20px;
     background-color: #007bff;
@@ -36,14 +50,19 @@ button:hover {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    /* Smooth color transition */
     transition: background-color 0.3s ease-in-out;
 }
 
+/* Change button color when hovered */
 .start-assessment-btn:hover {
     background-color: #0056b3;
 }
 
+/* Styling when the assessment is running, to indicate the process */
 .start-assessment-btn.assessment-running {
+    /* Orange to indicate the process */
     background-color: #ff9800;
+    /* Disable click functionality */
     cursor: not-allowed;
 }

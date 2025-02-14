@@ -1,7 +1,16 @@
+<!-- The goal details component displays detailed information about a specific goal -->
+ <!-- The container is shown only if a goal is passed as input -->
 <div *ngIf="goal" class="goal-details">
+    <!-- Display the goal's name as a heading -->
     <h4>Details for {{ goal.name }}</h4>
+
+    <!-- Display the goal description -->
     <p><strong>Description:</strong></p>
     <p>{{ goal.description }}</p>
+
+    <!-- If the goal has a parent, display its name -->
     <p *ngIf="goal.parent"><strong>Parent Goal:</strong> {{ goal.parent.name }}</p>
+
+    <!-- Button to close the goal details panel -->
     <button (click)="close()">Close</button>
 </div>

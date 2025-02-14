@@ -5,15 +5,15 @@
     <!-- Scrollable SVG Tree Visualization -->
     <div class="svg-container">
         <svg [attr.width]="svgWidth" [attr.height]="svgHeight">
-            <!-- Top-level nodes -->
+            <!-- Iterate over top-level nodes to render them -->
             <g *ngFor="let node of topLevelNodes">
-                <!-- Top-level Rectangular Nodes -->
+                <!-- Rectangular node representing a goal -->
                 <rect [attr.x]="node.x!! - rectWidth / 2" [attr.y]="node.y!! - rectHeight / 2" [attr.width]="rectWidth"
                     [attr.height]="rectHeight" rx="10" ry="10"
                     [attr.fill]="selectedGoals.includes(node.name) ? '#6c63ff' : '#ccc'">
                 </rect>
 
-                <!-- Node Labels -->
+                <!-- Node label with a clickable info icon -->
                 <foreignObject [attr.x]="node.x!! - rectWidth / 2" [attr.y]="node.y!! - rectHeight / 2"
                     [attr.width]="rectWidth" [attr.height]="rectHeight">
                     <div class="node-label">
@@ -22,13 +22,13 @@
                     </div>
                 </foreignObject>
 
-                <!-- Expand/Collapse Icon -->
+                <!-- Expand/collapse icon for composite goals -->
                 <text [attr.x]="node.x!! + rectWidth / 2 + 10" [attr.y]="node.y!!" class="expand-icon"
                     (click)="toggleExpand(node)">
                     {{ node.expanded ? '▲' : '▼' }}
                 </text>
 
-                <!-- Contextual Menu -->
+                <!-- Contextual menu displaying child goals when expanded -->
                 <foreignObject *ngIf="node.expanded" [attr.x]="node.x!! - rectWidth / 2" [attr.y]="node.y!! + 80"
                     width="300" height="400">
                     <div class="contextual-menu">

@@ -1,14 +1,23 @@
+<!-- Metric Details Panel -->
 <div *ngIf="metric" class="metric-details">
+     <!-- Metric Acronym Header -->
     <h4>Details for {{ metric.acronym }}:</h4>
+
+    <!-- Display Metric Properties -->
     <p><strong>Name:</strong> {{ metric.name }}</p>
     <p><strong>Description:</strong> {{ metric.description }}</p>
     <p><strong>Unit:</strong> {{ metric.unit }}</p>
     <p><strong>Current Value:</strong> {{ metric.value }}</p>
+
+    <!-- History Section -->
     <p><strong>History:</strong></p>
     <ul>
+        <!-- Iterate over the metric history and display each entry -->
         <li *ngFor="let entry of metric.history">
             {{ entry.timestamp | date:'short' }} - {{ entry.value }}
         </li>
     </ul>
+
+    <!-- Close Button -->
     <button (click)="close()">Close</button>
 </div>

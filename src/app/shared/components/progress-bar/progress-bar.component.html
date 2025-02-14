@@ -1,7 +1,10 @@
+<!-- Main container for the progress bar component -->
 <div class="progress-container">
+    <!-- Progress spinner shown when the 'visible' flag is true -->
     <mat-progress-spinner *ngIf="visible" [mode]="'indeterminate'" [diameter]="80" color="primary">
     </mat-progress-spinner>
 
+    <!-- Scrollable container for progress log messages -->
     <div class="progress-logs">
         <div *ngFor="let log of progressLogs" class="progress-log">{{ log }}</div>
     </div>

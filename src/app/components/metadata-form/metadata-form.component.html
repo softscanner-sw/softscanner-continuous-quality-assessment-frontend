@@ -1,21 +1,27 @@
+<!-- Form for collecting application metadata -->
 <h2>Application Metadata</h2>
 <form (ngSubmit)="onToggle()">
+  <!-- Name input field -->
   <label for="name">Name:</label>
   <input type="text" id="name" [(ngModel)]="appMetadata.name" name="name" required />
 
+  <!-- Type input field -->
   <label for="type">Type:</label>
   <input type="text" id="type" [(ngModel)]="appMetadata.type" name="type" required />
 
+  <!-- Technology input field -->
   <label for="technology">Technology:</label>
   <input type="text" id="technology" [(ngModel)]="appMetadata.technology" name="technology" required />
 
+  <!-- Path input field -->
   <label for="path">Codebase Path:</label>
   <input type="text" id="path" [(ngModel)]="appMetadata.path" name="path" required />
 
+  <!-- URL input field -->
   <label for="url">URL:</label>
   <input type="text" id="url" [(ngModel)]="appMetadata.url" name="url" required />
 
-  <!-- Toggle Button -->
+  <!-- Toggle button for submitting or clearing metadata -->
   <button type="submit" [class.toggled]="toggleState">
     {{ toggleState ? 'Metadata Set (Click to Reset)' : 'Set Metadata' }}
   </button>

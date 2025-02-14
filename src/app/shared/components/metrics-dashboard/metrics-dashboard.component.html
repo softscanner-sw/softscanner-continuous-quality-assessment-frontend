@@ -1,13 +1,31 @@
 <div class="dashboard">
+  <!-- Title displaying the name of the selected goal -->
   <h2>Metrics Dashboard for {{ selectedGoal.name }}</h2>
-    <!-- Individual Metric Charts -->
+   
+  <!-- Iterate through each metric in the selected goal and display it -->
   <div *ngFor="let metric of selectedGoal.metrics" class="metric-section">
+    <!-- Display metric name and unit -->
     <h3>{{ metric.name }} ({{ metric.unit }})</h3>
 
-    <!-- Line Chart for Metric History -->
+    <!-- Line chart for displaying the historical data of the metric -->
+    <!-- 
+      1. Set chart size
+      2. Select color scheme
+      3. Specify chart data
+      4. Display X-axis
+      5. Display Y-axis
+      6. Display legend
+      7. Show label on X-axis
+      8. Show label on Y-axis
+      9. Enable animations
+      10. Automatically scale the chart
+      11. Specify content of X-axis label
+      12. Specify content of Y-axis label
+      13. Handle legend click
+    -->
     <ngx-charts-line-chart
-      [view]="[700, 400]"
-      [scheme]="'cool'"
+      [view]="[700, 400]" 
+      [scheme]="'cool'" 
       [results]="getMetricLineChartData(metric)"
       [xAxis]="true"
       [yAxis]="true"
@@ -21,7 +39,20 @@
       (select)="onLegendClick($event, selectedGoal.name)"
     ></ngx-charts-line-chart>
 
-    <!-- Bar Chart for Current Metric Value -->
+    <!-- Bar chart for displaying the current value of the metric -->
+     <!-- 
+      1. Set chart size
+      2. Select color scheme
+      3. Specify chart data
+      4. Display X-axis
+      5. Display Y-axis
+      6. Display legend
+      7. Show label on X-axis
+      8. Show label on Y-axis
+      9. Specify content of X-axis label
+      10. Specify content of Y-axis label
+      11. Handle legend click
+    -->
     <ngx-charts-bar-vertical
       [view]="[700, 400]"
       [scheme]="'cool'"
@@ -36,7 +67,7 @@
       (select)="onLegendClick($event, selectedGoal.name)"
     ></ngx-charts-bar-vertical>
 
-    <!-- Metric details component -->
+    <!-- Display detailed information about the selected metric -->
     <app-metric-details 
       *ngIf="selectedMetricAcronyms[selectedGoal.name] && selectedMetric?.acronym === selectedMetricAcronyms[selectedGoal.name]"
       [metric]="selectedMetric" 

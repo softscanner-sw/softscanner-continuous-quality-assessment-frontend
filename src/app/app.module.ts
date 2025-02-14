@@ -10,18 +10,21 @@ import { QualityModelComponent } from './components/quality-model/quality-model.
 
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTreeModule } from '@angular/material/tree';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTreeModule } from '@angular/material/tree';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CollapsibleGoalPanelsComponent } from './shared/components/collapsible-goal-panels/collapsible-goal-panels.component';
+import { GoalAssessmentOverviewComponent } from './shared/components/goal-assessment-overview/goal-assessment-overview.component';
+import { GoalDetailsComponent } from './shared/components/goal-details/goal-details.component';
+import { MetricDetailsComponent } from './shared/components/metric-details/metric-details.component';
 import { MetricsDashboardComponent } from './shared/components/metrics-dashboard/metrics-dashboard.component';
 import { ProgressBarComponent } from './shared/components/progress-bar/progress-bar.component';
-import { MetricDetailsComponent } from './shared/components/metric-details/metric-details.component';
-import { GoalDetailsComponent } from './shared/components/goal-details/goal-details.component';
-import { GoalAssessmentOverviewComponent } from './shared/components/goal-assessment-overview/goal-assessment-overview.component';
-import { CollapsibleGoalPanelsComponent } from './shared/components/collapsible-goal-panels/collapsible-goal-panels.component';
 
+/**
+ * Main application module that declares and imports all components and services.
+ */
 @NgModule({
-    declarations: [
+    declarations: [ // Declare all components used in the application
         AppComponent,
         QualityModelComponent,
         MetadataFormComponent,
@@ -33,19 +36,19 @@ import { CollapsibleGoalPanelsComponent } from './shared/components/collapsible-
         CollapsibleGoalPanelsComponent
     ],
     imports: [
-        BrowserModule, 
-        FormsModule,
-        AppRoutingModule,
-        HttpClientModule,
-        MatTreeModule,
-        MatCheckboxModule,
-        MatIconModule,
-        NgxChartsModule,
-        MatProgressSpinnerModule
+        BrowserModule, // Provides services for running an app in the browser
+        FormsModule, // Supports template-driven forms
+        AppRoutingModule, // Configures the router with application routes
+        HttpClientModule, // Enables HTTP communication with external services
+        MatTreeModule, // For rendering tree components
+        MatCheckboxModule, // For checkbox components
+        MatIconModule, // For icon components
+        NgxChartsModule, // For charting capabilities
+        MatProgressSpinnerModule // For showing progress spinners
     ],
-    providers: [
-    provideAnimationsAsync()
-  ],
-    bootstrap: [AppComponent],
+    providers: [ // Application-level providers
+        provideAnimationsAsync() // Asynchronous animation provider for optimized loading
+    ],
+    bootstrap: [AppComponent], // Bootstraps the `AppComponent` as the root component
 })
 export class AppModule { }

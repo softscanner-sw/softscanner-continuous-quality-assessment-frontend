@@ -1,15 +1,20 @@
+<!-- Container for all goal panels -->
 <div class="goal-panels">
+    <!-- Iterate over the list of goals to create a collapsible panel for each -->
     <div *ngFor="let goal of goalsData" class="goal-panel">
+
+        <!-- Collapsible panel header -->
         <button class="panel-header" (click)="toggleGoalPanel(goal.name)">
-            <span>{{ goal.name }}</span> <!-- Text is properly aligned -->
-            <span>{{ expandedGoals.includes(goal.name) ? '▼' : '▲' }}</span>
+            <span>{{ goal.name }}</span> <!-- Displays the goal name -->
+            <span>{{ expandedGoals.includes(goal.name) ? '▼' : '▲' }}</span> <!-- Toggles arrow based on expanded state -->
         </button>
 
+        <!-- Collapsible content, visible only if the panel is expanded -->
         <div *ngIf="expandedGoals.includes(goal.name)" class="panel-content">
-            <!-- Goal Assessment Overview -->
+            <!-- Displays goal assessment overview -->
             <app-goal-assessment-overview [goal]="goal"></app-goal-assessment-overview>
 
-            <!-- Metrics Dashboard -->
+            <!-- Displays metrics dashboard for the selected goal -->
             <app-metrics-dashboard [selectedGoal]="goal"></app-metrics-dashboard>
         </div>
     </div>
