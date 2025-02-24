@@ -8,11 +8,8 @@ import { AppComponent } from './app.component';
 import { MetadataFormComponent } from './components/metadata-form/metadata-form.component';
 import { QualityModelComponent } from './components/quality-model/quality-model.component';
 
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTreeModule } from '@angular/material/tree';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MaterialModule } from './modules/material.module';
 import { CollapsibleGoalPanelsComponent } from './shared/components/collapsible-goal-panels/collapsible-goal-panels.component';
 import { GoalAssessmentOverviewComponent } from './shared/components/goal-assessment-overview/goal-assessment-overview.component';
 import { GoalDetailsComponent } from './shared/components/goal-details/goal-details.component';
@@ -40,11 +37,8 @@ import { ProgressBarComponent } from './shared/components/progress-bar/progress-
         FormsModule, // Supports template-driven forms
         AppRoutingModule, // Configures the router with application routes
         HttpClientModule, // Enables HTTP communication with external services
-        MatTreeModule, // For rendering tree components
-        MatCheckboxModule, // For checkbox components
-        MatIconModule, // For icon components
+        MaterialModule, // Angular Material
         NgxChartsModule, // For charting capabilities
-        MatProgressSpinnerModule // For showing progress spinners
     ],
     providers: [ // Application-level providers
         provideAnimationsAsync() // Asynchronous animation provider for optimized loading

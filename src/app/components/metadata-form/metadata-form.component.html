@@ -1,28 +1,58 @@
 <!-- Form for collecting application metadata -->
-<h2>Application Metadata</h2>
-<form (ngSubmit)="onToggle()">
-  <!-- Name input field -->
-  <label for="name">Name:</label>
-  <input type="text" id="name" [(ngModel)]="appMetadata.name" name="name" required />
+<mat-card class="metadata-card">
+  <mat-card-title>Application Metadata</mat-card-title>
+  <mat-card-content>
+    <form (ngSubmit)="onToggle()" #metadataForm="ngForm">
+      <!-- Name field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="your-web-app" [(ngModel)]="appMetadata.name" id="name" name="name" required>
+      </mat-form-field>
 
-  <!-- Type input field -->
-  <label for="type">Type:</label>
-  <input type="text" id="type" [(ngModel)]="appMetadata.type" name="type" required />
+      <!-- Codebase Path field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Codebase Path</mat-label>
+        <input matInput placeholder="/path/to/your/codebase" [(ngModel)]="appMetadata.path" id="path" name="path"
+          required>
+      </mat-form-field>
 
-  <!-- Technology input field -->
-  <label for="technology">Technology:</label>
-  <input type="text" id="technology" [(ngModel)]="appMetadata.technology" name="technology" required />
+      <!-- URL field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>URL</mat-label>
+        <input matInput placeholder="http://your-web-app-url/" [(ngModel)]="appMetadata.url" id="url" name="url"
+          required>
+      </mat-form-field>
 
-  <!-- Path input field -->
-  <label for="path">Codebase Path:</label>
-  <input type="text" id="path" [(ngModel)]="appMetadata.path" name="path" required />
+      <!-- Type select -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Type</mat-label>
+        <mat-select [(value)]="appMetadata.type" id="type" name="type" (selectionChange)="onTypeChange($event)"
+          required>
+          <mat-option value="">Select type</mat-option>
+          <mat-option value="Frontend">Frontend</mat-option>
+          <mat-option value="Backend">Backend</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-  <!-- URL input field -->
-  <label for="url">URL:</label>
-  <input type="text" id="url" [(ngModel)]="appMetadata.url" name="url" required />
+      <!-- Technology select -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Technology</mat-label>
+        <mat-select [(value)]="appMetadata.technology" id="technology" name="technology" required>
+          <mat-option value="">Select technology</mat-option>
+          <mat-option *ngFor="let tech of technologyOptions" [value]="tech.name">
+            <img [src]="tech.logo" alt="{{tech.name}} logo" class="tech-logo">
+            {{ tech.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-  <!-- Toggle button for submitting or clearing metadata -->
-  <button type="submit" [class.toggled]="toggleState">
-    {{ toggleState ? 'Metadata Set (Click to Reset)' : 'Set Metadata' }}
-  </button>
-</form>
+      <!-- Submit / Reset Button -->
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="submit" [disabled]="metadataForm.invalid"
+          [class.toggled]="toggleState">
+          {{ toggleState ? 'Metadata Set (Click to Reset)' : 'Set Metadata' }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

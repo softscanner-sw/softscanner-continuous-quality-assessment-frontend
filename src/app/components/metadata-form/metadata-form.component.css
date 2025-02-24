@@ -1,13 +1,21 @@
-/* Styling for the metadata form */
-form {
-  /* Use a grid layout for better organization */
-  display: grid;
-  /* Two-column layout: labels and input fields */
-  grid-template-columns: auto 1fr;
-  /* Spacing between grid items */
-  gap: 10px;
+/* Container for the metadata form using Angular Material Card */
+.metadata-card {
+  max-width: max-content;
+  margin: 20px auto;
+  padding: 20px;
   /* Light gray background */
   background-color: #f9f9f9;
+}
+
+/* Ensure all form fields (wrapped in mat-form-field) take full width and have bottom margin */
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+form {
+  /* Remove any default margin/padding from the form (handled by mat-form-fields) */
+  display: block;
   /* Padding inside the form */
   padding: 40px;
   /* Light gray border */
@@ -18,29 +26,24 @@ form {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-label {
-  /* Bold labels for emphasis */
-  font-weight: bold;
-  display: flex;
-  /* Vertically center the label text */
-  align-items: center;
+/* Style for the technology logo images in the mat-select options */
+.tech-logo {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-right: 8px;
+  border-radius: 2px;
 }
 
-input {
-  /* Inner padding for input fields */
-  padding: 8px;
-  /* Light gray border */
-  border: 1px solid #ccc;
-  /* Rounded corners for inputs */
-  border-radius: 4px;
-  /* Full-width input fields */
-  width: 100%;
+/* Center the submit button */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
 }
 
 /* Styling for the toggle button */
 button {
-  /* Button spans both columns */
-  grid-column: span 2;
   /* Button padding */
   padding: 12px;
   /* Blue background color */

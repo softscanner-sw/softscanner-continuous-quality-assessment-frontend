@@ -23,6 +23,10 @@ export class MetadataFormComponent {
     url: ''
   };
 
+  // Technologies populated based on the selected application type
+  // Each option has a name and a logo URL.
+  technologyOptions: { name: string; logo: string }[] = [];
+
   // State to track whether metadata is set
   toggleState: boolean = false;
 
@@ -31,7 +35,7 @@ export class MetadataFormComponent {
    * Toggles the state and emits metadata if all fields are filled.
    */
   onToggle() {
-    if (!this.isFilled()){
+    if (!this.isFilled()) {
       // Alert if not all fields are filled
       alert('Please fill out the required metadata.');
       return;
@@ -49,12 +53,32 @@ export class MetadataFormComponent {
     }
   }
 
+  onTypeChange(event: any) {
+    const selectedType = event.value || event.target.value;
+    if (selectedType === 'Frontend') {
+      this.technologyOptions = [
+        { name: 'Angular', logo: 'assets/logos/angular-logo.png' },
+        { name: 'React', logo: 'assets/logos/react-logo.png' }
+      ];
+    } else if (selectedType === 'Backend') {
+      this.technologyOptions = [
+        { name: 'Node.js', logo: 'assets/logos/nodejs-logo.png' }
+      ];
+    } else {
+      this.technologyOptions = [];
+    }
+    // Reset the technology field when the type changes.
+    this.appMetadata.technology = '';
+  }
+
   /**
    * Helper method to check if all fields are filled.
    */
   isFilled() {
-    return this.appMetadata.name && this.appMetadata.path
-      && this.appMetadata.technology && this.appMetadata.type
-      && this.appMetadata.url;
+    return this.appMetadata.name &&
+      this.appMetadata.path &&
+      this.appMetadata.technology &&
+      this.appMetadata.type &&
+      this.appMetadata.url;
   }
 }
