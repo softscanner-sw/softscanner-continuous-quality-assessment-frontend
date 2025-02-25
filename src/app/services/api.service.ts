@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { AppMetadata, AssessmentsApiData, ProgressApiData } from '../shared/models/types.model';
+import { AssessmentRequestData, AssessmentResponseData, AssessmentsApiData, ProgressApiData } from '../shared/models/types.model';
 
 @Injectable({
   providedIn: 'root' // This service will be available throughout the application.
@@ -28,9 +28,9 @@ export class ApiService {
    * @param data An object containing application metadata and a list of selected goals.
    * @returns An observable with the server response containing the assessment ID and related endpoints.
    */
-  startAssessment(data: { metadata: AppMetadata, selectedGoals: string[] }):
-    Observable<{ assessmentId: string; progressEndpoint: string; assessmentEndpoint: string }> {
-    return this.http.post<{ assessmentId: string; progressEndpoint: string; assessmentEndpoint: string }>(
+  startAssessment(data: AssessmentRequestData):
+    Observable<AssessmentResponseData> {
+    return this.http.post<AssessmentResponseData>(
       `${this.backendUrl}/assessment`,
       data,
       { headers: { 'Content-Type': 'application/json' } }

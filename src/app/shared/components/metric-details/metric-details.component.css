@@ -1,33 +1,44 @@
-/* Styles for the metric details panel */
-.metric-details {
-    padding: 20px;
-    border-radius: 12px;
-    /* Subtle shadow for depth */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    background: #ffffff;
-    /* Consistent font style */
-    font-family: 'Roboto', sans-serif;
+.metric-details-content {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 16px;
 }
 
-/* Styling for the header inside the metric details */
-.metric-details h4 {
+.metric-details-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.metric-info-icon {
+    color: #1976d2;
+    /* Primary color */
+}
+
+.metric-title {
     font-size: 20px;
+    font-weight: bold;
     color: #333;
 }
 
-/* Styling for the close button */
-.metric-details button {
-    /* Red background */
-    background-color: #f44336;
-    padding: 10px 15px;
+.metric-info p {
     font-size: 14px;
-    font-weight: bold;
-    border-radius: 8px;
-    /* Smooth transition for hover effect */
-    transition: background-color 0.3s ease;
+    line-height: 1.5;
+    margin: 8px 0;
 }
 
-/* Button hover effect with a darker red */
-.metric-details button:hover {
-    background-color: #d32f2f;
+.metric-history h3 {
+    margin-top: 16px;
+    font-size: 16px;
+    color: #555;
+}
+
+/* Optional: ensure the table takes full width */
+.full-width-table {
+    width: 100%;
+}
+
+mat-dialog-actions {
+    padding: 8px 16px;
 }

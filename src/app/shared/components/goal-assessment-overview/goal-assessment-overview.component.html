@@ -20,31 +20,17 @@
   ></ngx-charts-line-chart>
 
   <!-- Bar chart displaying the metrics contribution breakdown -->
-    <ngx-charts-bar-horizontal
-    [view]="[700, 300]"
-    [scheme]="'cool'"
-    [results]="getBarChartData()"
-    [xAxis]="true"
-    [yAxis]="true"
-    [legend]="true"
-    xAxisLabel="Metric Contribution (%)"
-    yAxisLabel="Metric"
-    [showXAxisLabel]="true"
-    [showYAxisLabel]="true"
-    (select)="onMetricLegendClick($event)"
+  <ngx-charts-bar-horizontal
+  [view]="[700, 300]"
+  [scheme]="'cool'"
+  [results]="getBarChartData()"
+  [xAxis]="true"
+  [yAxis]="true"
+  [legend]="true"
+  xAxisLabel="Metric Contribution (%)"
+  yAxisLabel="Metric"
+  [showXAxisLabel]="true"
+  [showYAxisLabel]="true"
+  (select)="onMetricLegendClick($event)"
   ></ngx-charts-bar-horizontal>
-
-  <!-- Goal details component (shown when a goal is selected) -->
-  <app-goal-details 
-    *ngIf="goalSelected"
-    [goal]="goal"
-    (closeDetails)="closeGoalDetails()">
-  </app-goal-details>
-
-  <!-- Metric details component (shown when a metric is selected) -->
-  <app-metric-details 
-  *ngIf="metricSelected"
-  [metric]="selectedMetric" 
-  (closeDetails)="closeMetricDetails()">
-</app-metric-details>
 </div>

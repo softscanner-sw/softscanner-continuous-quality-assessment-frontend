@@ -1,6 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ChartDataService } from '../../../services/chart-data.service';
 import { BarChartData, GoalsData, LineChartData, MetricData } from '../../models/types.model';
+import { GoalDetailsComponent } from '../goal-details/goal-details.component';
+import { MetricDetailsComponent } from '../metric-details/metric-details.component';
 
 /**
  * Component to display an overview of goal assessments.
@@ -10,18 +13,15 @@ import { BarChartData, GoalsData, LineChartData, MetricData } from '../../models
 @Component({
   selector: 'app-goal-assessment-overview',
   templateUrl: './goal-assessment-overview.component.html',
-  styleUrl: './goal-assessment-overview.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush // Optimizes performance by updating only when inputs change
+  styleUrl: './goal-assessment-overview.component.css'
 })
 export class GoalAssessmentOverviewComponent {
   @Input() goal!: GoalsData; // The goal data to be displayed
-  goalSelected: boolean = false; // Tracks whether the goal details view is open
-  metricSelected: boolean = false; // Tracks whether the metric details view is open
-  selectedMetric: MetricData | null = null; // Stores the currently selected metric for detailed view
 
   constructor(
     private chartDataService: ChartDataService, // Service to generate chart data
-    private cdr: ChangeDetectorRef // Used to manually trigger change detection
+    private cdr: ChangeDetectorRef, // Used to manually trigger change detection
+    private dialog: MatDialog
   ) { }
 
   /**
@@ -46,11 +46,19 @@ export class GoalAssessmentOverviewComponent {
    * @param event Click event data
    */
   onGoalLegendClick(event: any): void {
-    console.log('GoalAssessmentOverviewComponent: Goal Legend clicked:', event);
-    this.goalSelected = true;
+    console.log('Goal Assessment Overview Component: Goal Legend clicked:', event);
+
+    this.openGoalDetails(this.goal);
 
     // Trigger change detection to update the view
     this.cdr.detectChanges();
+  }
+
+  openGoalDetails(goal: GoalsData) {
+    this.dialog.open(GoalDetailsComponent, {
+      data: goal,
+      width: '600px'
+    });
   }
 
   /**
@@ -59,24 +67,43 @@ export class GoalAssessmentOverviewComponent {
    * @param event Click event data
    */
   onMetricLegendClick(event: any): void {
-    console.log('GoalAssessmentOverviewComponent: Metric Legend clicked:', event);
-    
-    // Extract acronym from the clicked legend
-    const metricAcronym = event.split(' ')[0]; // Extract acronym from legend
+    console.log('Goal Assessment Overview Component: Metric legend/chart item clicked:', event);
+
+    // Extract metric data from event
+    let metricAcronym = this.extractDataFromEvent(event);
+
+    // Extract metric from the extracted metric data
     const metric = this.findMetricByAcronym(metricAcronym);
 
-    if (metric) {
-      this.selectedMetric = metric;
-      this.metricSelected = true;
-    }
-
-    else {
-      this.selectedMetric = null;
-      this.metricSelected = false;
-    }
+    if (metric)
+      // Open metric details
+      this.openMetricDetails(JSON.parse(JSON.stringify(metric)));
 
     // Trigger change detection to update the view
     this.cdr.detectChanges();
+  }
+
+  openMetricDetails(metric: MetricData): void {
+    this.dialog.open(MetricDetailsComponent, {
+      data: metric,
+      width: '600px'
+    });
+  }
+
+  private extractDataFromEvent(event: any) {
+    let data: string;
+
+    // If event is an object, use its name property; if a string, split it.
+    if (typeof event === 'object' && event.name) {
+      data = event.name.split(' ')[0];
+    } else if (typeof event === 'string') {
+      data = event.split(' ')[0];
+    } else {
+      console.error('Unexpected event format', event);
+      data = '';
+    }
+
+    return data;
   }
 
   /**
@@ -86,26 +113,5 @@ export class GoalAssessmentOverviewComponent {
    */
   private findMetricByAcronym(acronym: string): MetricData | null {
     return this.goal.metrics.find((metric) => metric.acronym === acronym) || null;
-  }
-
-  /**
-   * Closes the goal details view.
-   */
-  closeGoalDetails(): void {
-    this.goalSelected = false;
-
-    // Trigger change detection to update the view
-    this.cdr.detectChanges();
-  }
-
-  /**
-   * Closes the metric details view.
-   */
-  closeMetricDetails(): void {
-    this.selectedMetric = null;
-    this.metricSelected = false;
-
-    // Trigger change detection to update the view
-    this.cdr.detectChanges();
   }
 }

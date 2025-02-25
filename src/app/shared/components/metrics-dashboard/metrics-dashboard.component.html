@@ -1,77 +1,53 @@
-<div class="dashboard">
-  <!-- Title displaying the name of the selected goal -->
-  <h2>Metrics Dashboard for {{ selectedGoal.name }}</h2>
-   
-  <!-- Iterate through each metric in the selected goal and display it -->
-  <div *ngFor="let metric of selectedGoal.metrics" class="metric-section">
-    <!-- Display metric name and unit -->
-    <h3>{{ metric.name }} ({{ metric.unit }})</h3>
+<mat-card class="dashboard-card">
+  <mat-card-title>Metrics Dashboard for {{ selectedGoal.name }}</mat-card-title>
+  <mat-card-content>
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let metric of selectedGoal.metrics" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ metric.name }} ({{ metric.unit }})
+          </mat-panel-title>
+          <mat-panel-description>
+            <!-- Show an info icon that, when clicked, shows the metric details -->
+            <button mat-icon-button color="primary"
+              (click)="openMetricDetails(metric); $event.stopPropagation()"
+              matTooltip="View Details">
+              <mat-icon>insights</mat-icon>
+            </button>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
-    <!-- Line chart for displaying the historical data of the metric -->
-    <!-- 
-      1. Set chart size
-      2. Select color scheme
-      3. Specify chart data
-      4. Display X-axis
-      5. Display Y-axis
-      6. Display legend
-      7. Show label on X-axis
-      8. Show label on Y-axis
-      9. Enable animations
-      10. Automatically scale the chart
-      11. Specify content of X-axis label
-      12. Specify content of Y-axis label
-      13. Handle legend click
-    -->
-    <ngx-charts-line-chart
-      [view]="[700, 400]" 
-      [scheme]="'cool'" 
-      [results]="getMetricLineChartData(metric)"
-      [xAxis]="true"
-      [yAxis]="true"
-      [legend]="true"
-      [showXAxisLabel]="true"
-      [showYAxisLabel]="true"
-      [animations]="true"
-      [autoScale]="true"
-      xAxisLabel="Time"
-      yAxisLabel="{{ metric.acronym }} ({{ metric.unit }})"
-      (select)="onLegendClick($event, selectedGoal.name)"
-    ></ngx-charts-line-chart>
-
-    <!-- Bar chart for displaying the current value of the metric -->
-     <!-- 
-      1. Set chart size
-      2. Select color scheme
-      3. Specify chart data
-      4. Display X-axis
-      5. Display Y-axis
-      6. Display legend
-      7. Show label on X-axis
-      8. Show label on Y-axis
-      9. Specify content of X-axis label
-      10. Specify content of Y-axis label
-      11. Handle legend click
-    -->
-    <ngx-charts-bar-vertical
-      [view]="[700, 400]"
-      [scheme]="'cool'"
-      [results]="getMetricBarChartData(metric)"
-      [xAxis]="true"
-      [yAxis]="true"
-      [legend]="true"
-      [showXAxisLabel]="true"
-      [showYAxisLabel]="true"
-      xAxisLabel="Metric"
-      yAxisLabel="Value"
-      (select)="onLegendClick($event, selectedGoal.name)"
-    ></ngx-charts-bar-vertical>
-
-    <!-- Display detailed information about the selected metric -->
-    <app-metric-details 
-      *ngIf="selectedMetricAcronyms[selectedGoal.name] && selectedMetric?.acronym === selectedMetricAcronyms[selectedGoal.name]"
-      [metric]="selectedMetric" 
-      (closeDetails)="closeMetricDetails(selectedGoal.name)">
-    </app-metric-details>
-  </div>
-</div>
+        <!-- Charts for the metric -->
+        <div class="chart-container">
+          <ngx-charts-line-chart
+            [view]="[700, 400]"
+            [scheme]="'cool'"
+            [results]="getMetricLineChartData(metric)"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            [animations]="true"
+            [autoScale]="true"
+            xAxisLabel="Time"
+            yAxisLabel="{{ metric.acronym }} ({{ metric.unit }})"
+            (select)="onLegendClick($event)">
+          </ngx-charts-line-chart>
+          <ngx-charts-bar-vertical
+            [view]="[700, 400]"
+            [scheme]="'cool'"
+            [results]="getMetricBarChartData(metric)"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            xAxisLabel="Metric"
+            yAxisLabel="Value"
+            (select)="onLegendClick($event)"></ngx-charts-bar-vertical>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card-content>
+</mat-card>

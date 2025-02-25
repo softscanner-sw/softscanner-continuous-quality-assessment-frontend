@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ChartDataService } from '../../../services/chart-data.service';
 import { BarChartData, GoalsData, LineChartData, MetricData } from '../../models/types.model';
+import { MetricDetailsComponent } from '../metric-details/metric-details.component';
 
 /**
  * Component that represents the Metrics Dashboard.
@@ -9,8 +11,7 @@ import { BarChartData, GoalsData, LineChartData, MetricData } from '../../models
 @Component({
   selector: 'app-metrics-dashboard',
   templateUrl: './metrics-dashboard.component.html',
-  styleUrl: './metrics-dashboard.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush // Optimize for performance by reducing unnecessary checks
+  styleUrl: './metrics-dashboard.component.css'
 })
 export class MetricsDashboardComponent {
   /** 
@@ -30,7 +31,8 @@ export class MetricsDashboardComponent {
 
   constructor(
     private chartDataService: ChartDataService, // Service to generate chart data for metrics
-    private cdr: ChangeDetectorRef // Change detector to trigger manual change detection
+    private cdr: ChangeDetectorRef, // Change detector to trigger manual change detection
+    private dialog: MatDialog
   ) { }
 
   /**
@@ -39,33 +41,41 @@ export class MetricsDashboardComponent {
    * @param event The click event containing the metric acronym
    * @param goalName The name of the goal associated with the clicked metric
    */
-  onLegendClick(event: any, goalName: string): void {
-    const metricAcronym = event.split(' ')[0]; // Extract metric acronym from legend
-    const metric = this.findMetricByAcronym(metricAcronym); // Find the corresponding metric
+  onLegendClick(event: any): void {
+    // Extract metric data from event
+    let metricAcronym = this.extractDataFromEvent(event);
 
-    if (metric) {
-      // If the metric is found, display its details
-      this.selectedMetric = metric;
-      this.selectedMetricAcronyms = { ...this.selectedMetricAcronyms, [goalName]: metricAcronym };
-    }
-    else {
-      // If not found, reset the selected metric
-      this.selectedMetric = null;
-      this.selectedMetricAcronyms = { ...this.selectedMetricAcronyms, [goalName]: null };
-    }
+    // Extract metric from the extracted metric data
+    const metric = this.findMetricByAcronym(metricAcronym);
+
+    if (metric)
+      this.openMetricDetails(JSON.parse(JSON.stringify(metric)));
 
     // Trigger change detection to update the view
     this.cdr.detectChanges();
   }
 
-  /**
-   * Closes the detailed view of the currently selected metric.
-   * @param goalName The name of the goal for which the detailed view should be closed
-   */
-  closeMetricDetails(goalName: string): void {
-    this.selectedMetricAcronyms[goalName] = null;
-    this.selectedMetric = null;
-    this.cdr.detectChanges();
+  openMetricDetails(metric: MetricData): void {
+    this.dialog.open(MetricDetailsComponent, {
+      data: metric,
+      width: '600px'
+    });
+  }
+
+  private extractDataFromEvent(event: any) {
+    let data: string;
+
+    // If event is an object, use its name property; if a string, split it.
+    if (typeof event === 'object' && event.name) {
+      data = event.name.split(' ')[0];
+    } else if (typeof event === 'string') {
+      data = event.split(' ')[0];
+    } else {
+      console.error('Unexpected event format', event);
+      data = '';
+    }
+
+    return data;
   }
 
   /**

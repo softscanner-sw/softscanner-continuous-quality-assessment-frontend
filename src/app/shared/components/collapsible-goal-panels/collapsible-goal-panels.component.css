@@ -1,82 +1,21 @@
-/* Styling for each goal panel with rounded corners and shadow for a card effect */
-.goal-panel {
-    /* Adds spacing between panels */
-    margin-bottom: 20px;
-    /* Rounds the corners */
-    border-radius: 8px;
-    /* Ensures content does not overflow */
-    overflow: hidden;
-    /* Adds a light shadow for depth */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    /* Smooth transition on hover */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    /* Makes each panel span the full width */
-    width: 100%;
-}
-
-/* Hover effect for goal panels to make them more interactive */
-.goal-panel:hover {
-    /* Slightly scales the panel */
-    transform: scale(1.01);
-    /* Increases shadow for emphasis */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-/* Header styling for each collapsible panel */
-.panel-header {
-    /* Aligns elements horizontally */
-    display: flex;
-    /* Spaces text and icon apart */
-    justify-content: space-between;
-    /* Centers items vertically */
-    align-items: center;
-    /* Adds padding for better spacing */
-    padding: 10px 15px;
-    /* Gradient background */
-    background: linear-gradient(to right, #6c63ff, #4a90e2);
-    /* Sets font size */
-    font-size: 16px;
-    /* White text color */
-    color: #fff;
-    /* Removes border */
-    border: none;
-    /* Removes focus outline */
-    outline: none;
-    /* Changes cursor to pointer */
-    cursor: pointer;
-    /* Adds smooth transition */
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    /* Makes the button span full width */
-    width: 100%;
-}
-
-/* Hover effect for panel headers */
-.panel-header:hover {
-    /* Changes background color on hover */
-    background-color: #0056b3;
-    /* Slightly scales the header */
-    transform: scale(1.02);
-}
-
-/* Content styling for the expanded panel */
-.panel-content {
-    /* Adds padding around the content */
-    padding: 15px;
-    /* Light gray background for contrast */
-    background-color: #f5f5f5;
-    /* Adds a blue border as a visual indicator */
-    border-left: 3px solid #007bff;
-    /* Rounds the bottom corners */
-    border-radius: 0 0 8px 8px;
-}
-
-/* Container for all goal panels */
 .goal-panels {
-    display: flex;
-    /* Stacks panels vertically */
-    flex-direction: column;
-    /* Adds spacing between panels */
-    gap: 15px;
-    /* Ensures the container spans full width */
     width: 100%;
+}
+
+mat-expansion-panel {
+    margin-bottom: 15px;
+    /* Optionally add a subtle shadow if you like */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+mat-expansion-panel-header {
+    background: linear-gradient(to right, #6c63ff, #4a90e2);
+    color: #fff;
+}
+
+.panel-content {
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-left: 3px solid #007bff;
+    border-radius: 0 0 8px 8px;
 }

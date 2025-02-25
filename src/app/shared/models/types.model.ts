@@ -49,6 +49,17 @@ export interface AssessmentsApiData {
   selectedGoals: GoalsData[];               // List of goals selected for quality assessment, including details and assessments.
 }
 
+export interface AssessmentRequestData {
+  metadata: AppMetadata;
+  selectedGoals: string[];
+}
+
+export interface AssessmentResponseData {
+  assessmentId: string;
+  progressEndpoint: string;
+  assessmentEndpoint: string
+}
+
 /**
  * Contains metadata about the application under assessment.
  */
@@ -67,6 +78,7 @@ export interface GoalsData {
   name: string;                             // Name of the goal.
   description: string;                      // Detailed description of the goal.
   weight: number;                           // Weight assigned to the goal for assessment calculations.
+  parent?: GoalsData;                       // Optional parent goal of the current goal
   metrics: MetricData[];                    // List of metrics associated with the goal.
   assessments: GoalAssessmentData[];        // Assessment results for the goal.
 }

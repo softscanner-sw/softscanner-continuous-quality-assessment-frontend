@@ -1,65 +1,27 @@
-/* Styles for the goal details container */
-.goal-details {
-    /* Limit the width of the details panel */
-    max-width: 600px;
-    /* Inner padding for spacing */
-    padding: 15px;
-    /* Light border around the details */
-    border: 1px solid #ddd;
-    /* Rounded corners for a smoother look */
-    border-radius: 5px;
-    /* Light gray background */
-    background-color: #f1f1f1;
-    /* Subtle shadow for elevation effect */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* Ensure text wraps correctly */
-    word-wrap: break-word;
-    /* Normal spacing for text */
-    white-space: normal;
-    /* Hide content that overflows */
-    overflow: hidden;
+.info-icon {
+    vertical-align: middle;
+    margin-right: 8px;
+    color: #1976d2;
 }
 
-/* Styling for the goal name heading */
-.goal-details h4 {
-    /* Blue color for the heading */
-    color: #007bff;
-}
-
-/* Styling for the paragraph content */
-.goal-details p {
-    /* Limit the maximum height for the description */
-    max-height: 200px;
-    /* Add vertical scrolling if content exceeds the height */
+.goal-details-content {
+    max-height: 400px;
     overflow-y: auto;
-    /* Set a smaller font size for text */
+    padding: 16px;
+}
+
+mat-dialog-title {
+    font-weight: bold;
+    color: #1976d2;
+    margin-bottom: 8px;
+}
+
+p {
     font-size: 14px;
-    /* Line spacing for readability */
-    line-height: 1.4;
-    /* Vertical spacing between paragraphs */
-    margin: 5px 0;
+    line-height: 1.5;
+    margin: 8px 0;
 }
 
-/* Styling for the Close button */
-.goal-details button {
-    /* Red background for the button */
-    background-color: #ff4d4d;
-    /* White text */
-    color: white;
-    /* No border */
-    border: none;
-    /* Button padding for size */
-    padding: 8px 12px;
-    /* Pointer cursor on hover */
-    cursor: pointer;
-    /* Rounded corners for the button */
-    border-radius: 5px;
-    /* Space above the button */
-    margin-top: 10px;
-}
-
-/* Change button color on hover for a better user experience */
-.goal-details button:hover {
-    /* Darker red when hovered */
-    background-color: #cc0000;
+mat-dialog-actions {
+    padding: 8px 16px;
 }

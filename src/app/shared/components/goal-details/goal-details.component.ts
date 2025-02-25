@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GoalNode } from '../../models/types.model';
 
 /**
@@ -23,11 +24,18 @@ export class GoalDetailsComponent {
    */
   @Output() closeDetails = new EventEmitter<void>();
 
+  constructor(
+    public dialogRef: MatDialogRef<GoalDetailsComponent>,
+    @Inject(MAT_DIALOG_DATA) goal: GoalNode) {
+    this.goal = goal;
+  }
+
   /**
    * Method to handle the Close button click.
    * Emits the closeDetails event to notify the parent component.
    */
   close() {
+    this.dialogRef.close();
     this.closeDetails.emit();
   }
 }

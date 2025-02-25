@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { GoalNode } from '../../shared/models/types.model';
+import { MatDialog } from '@angular/material/dialog';
+import { GoalDetailsComponent } from '../../shared/components/goal-details/goal-details.component';
 
 /**
  * Component to visualize and interact with the quality model of an application.
@@ -26,7 +28,7 @@ export class QualityModelComponent implements OnInit {
   rectWidth = 200; // Width of each rectangular node in the tree
   rectHeight = 60; // Height of each rectangular node in the tree
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private dialog: MatDialog) { }
 
   /**
    * Lifecycle hook that is called after data-bound properties are initialized.
@@ -108,6 +110,10 @@ export class QualityModelComponent implements OnInit {
       description: node.description,
       parent: node.parent
     };
+    this.dialog.open(GoalDetailsComponent, {
+      data: node,
+      width: '600px'
+    });
   }
 
   /**
@@ -179,5 +185,29 @@ export class QualityModelComponent implements OnInit {
       }
       return acc;
     }, []);
+  }
+
+  /**
+ * Computes the contextual menu width based on the longest child name.
+ */
+  getContextualMenuWidth(node: GoalNode): number {
+    if (!node.children || node.children.length === 0) {
+      return 300; // default width
+    }
+    const maxNameLength = Math.max(...node.children.map(child => child.name.length));
+    const calculatedWidth = 150 + maxNameLength * 7;
+    return Math.min(calculatedWidth, 300);
+  }
+
+  /**
+   * Computes the contextual menu height based on the number of child nodes.
+   * Assumes each child item has a height of about 48px plus padding.
+   */
+  getContextualMenuHeight(node: GoalNode): number {
+    if (!node.children) {
+      return 400; // default height
+    }
+    const height = node.children.length * 48 + 20;
+    return Math.min(height, 400);
   }
 }

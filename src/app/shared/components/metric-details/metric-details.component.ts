@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MetricData } from '../../models/types.model';
 
 /**
@@ -24,10 +25,20 @@ export class MetricDetailsComponent {
    */
   @Output() closeDetails = new EventEmitter<void>();
 
+  displayedColumns: string[] = ['timestamp', 'value'];  // Define columns for the table
+
+  constructor(
+    public dialogRef: MatDialogRef<MetricDetailsComponent>,
+    @Inject(MAT_DIALOG_DATA) data: MetricData
+  ) {
+    this.metric = data;
+  }
+
   /**
    * Triggers the closeDetails event to notify the parent component that the panel should be closed.
    */
   close() {
+    this.dialogRef.close();
     this.closeDetails.emit();
   }
 }

@@ -1,0 +1,40 @@
+<!-- quality-assessment.component.html -->
+<div class="container">
+    <!-- Metadata Form Section -->
+    <mat-card class="section-card">
+        <mat-card-content>
+            <app-metadata-form (metadataSubmitted)="onMetadataSubmit($event)"></app-metadata-form>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Quality Model Section -->
+    <mat-card class="section-card">
+        <mat-card-content>
+            <app-quality-model (goalsSelected)="onGoalsSelected($event)"></app-quality-model>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Progress Bar Section -->
+    <mat-card *ngIf="progressVisible" class="section-card">
+        <mat-card-title>Progress</mat-card-title>
+        <mat-card-content>
+            <app-progress-bar [progressLogs]="progressMessages"></app-progress-bar>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Collapsible Goal Panels Section -->
+    <mat-card *ngIf="goalsData.length > 0" class="section-card">
+        <mat-card-title>Goal Assessments</mat-card-title>
+        <mat-card-content>
+            <app-collapsible-goal-panels [goalsData]="goalsData"></app-collapsible-goal-panels>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Start/Stop Assessment Button -->
+    <div class="button-container">
+        <button mat-raised-button [ngClass]="assessmentInProgress ? 'stop-button' : 'start-button'" type="button"
+            (click)="toggleAssessment()">
+            {{ assessmentInProgress ? 'Stop Assessment' : 'Start Quality Assessment' }}
+        </button>
+    </div>
+</div>

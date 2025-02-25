@@ -1,23 +1,41 @@
-<!-- Metric Details Panel -->
-<div *ngIf="metric" class="metric-details">
-     <!-- Metric Acronym Header -->
-    <h4>Details for {{ metric.acronym }}:</h4>
+<mat-dialog-content class="metric-details-content">
+    <!-- Header with an info icon -->
+    <div class="metric-details-header">
+        <mat-icon class="metric-info-icon">insights</mat-icon>
+        <span class="metric-title">Details for {{ metric?.acronym }}</span>
+    </div>
+    <mat-divider></mat-divider>
 
-    <!-- Display Metric Properties -->
-    <p><strong>Name:</strong> {{ metric.name }}</p>
-    <p><strong>Description:</strong> {{ metric.description }}</p>
-    <p><strong>Unit:</strong> {{ metric.unit }}</p>
-    <p><strong>Current Value:</strong> {{ metric.value }}</p>
+    <!-- Metric Basic Info -->
+    <div class="metric-info">
+        <p><strong>Name:</strong> {{ metric?.name }}</p>
+        <p><strong>Description:</strong> {{ metric?.description }}</p>
+        <p><strong>Unit:</strong> {{ metric?.unit }}</p>
+        <p><strong>Current Value:</strong> {{ metric?.value }}</p>
+    </div>
 
-    <!-- History Section -->
-    <p><strong>History:</strong></p>
-    <ul>
-        <!-- Iterate over the metric history and display each entry -->
-        <li *ngFor="let entry of metric.history">
-            {{ entry.timestamp | date:'short' }} - {{ entry.value }}
-        </li>
-    </ul>
+    <!-- Metric History using Material Table -->
+    <div class="metric-history">
+        <h3>History</h3>
+        <table mat-table [dataSource]="metric?.history || []" class="mat-elevation-z8 full-width-table">
 
-    <!-- Close Button -->
-    <button (click)="close()">Close</button>
-</div>
+            <!-- Timestamp Column -->
+            <ng-container matColumnDef="timestamp">
+                <th mat-header-cell *matHeaderCellDef> Timestamp </th>
+                <td mat-cell *matCellDef="let entry"> {{ entry.timestamp | date:'short' }} </td>
+            </ng-container>
+
+            <!-- Value Column -->
+            <ng-container matColumnDef="value">
+                <th mat-header-cell *matHeaderCellDef> Value </th>
+                <td mat-cell *matCellDef="let entry"> {{ entry.value }} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button color="primary" (click)="close()">Close</button>
+</mat-dialog-actions>

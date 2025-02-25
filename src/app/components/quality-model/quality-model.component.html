@@ -5,55 +5,60 @@
     <!-- Scrollable SVG Tree Visualization -->
     <div class="svg-container">
         <svg [attr.width]="svgWidth" [attr.height]="svgHeight">
-            <!-- Iterate over top-level nodes to render them -->
             <g *ngFor="let node of topLevelNodes">
-                <!-- Rectangular node representing a goal -->
-                <rect [attr.x]="node.x!! - rectWidth / 2" [attr.y]="node.y!! - rectHeight / 2" [attr.width]="rectWidth"
+                <!-- Rectangular node representing a goal (keeps original style) -->
+                <rect [attr.x]="node.x! - rectWidth / 2" [attr.y]="node.y! - rectHeight / 2" [attr.width]="rectWidth"
                     [attr.height]="rectHeight" rx="10" ry="10"
                     [attr.fill]="selectedGoals.includes(node.name) ? '#6c63ff' : '#ccc'">
                 </rect>
 
-                <!-- Node label with a clickable info icon -->
-                <foreignObject [attr.x]="node.x!! - rectWidth / 2" [attr.y]="node.y!! - rectHeight / 2"
+                <!-- Node label with a Material icon button for details -->
+                <foreignObject [attr.x]="node.x! - rectWidth / 2" [attr.y]="node.y! - rectHeight / 2"
                     [attr.width]="rectWidth" [attr.height]="rectHeight">
                     <div class="node-label">
-                        {{ node.name }}
-                        <span class="details-icon" (click)="showGoalDetails(node)">&#9432;</span>
+                        <span class="node-name">{{ node.name }}</span>
+                        <button mat-icon-button color="primary" (click)="showGoalDetails(node)"
+                            matTooltip="View Details">
+                            <mat-icon>info</mat-icon>
+                        </button>
                     </div>
                 </foreignObject>
 
-                <!-- Expand/collapse icon for composite goals -->
-                <text [attr.x]="node.x!! + rectWidth / 2 + 10" [attr.y]="node.y!!" class="expand-icon"
+                <!-- Expand/collapse icon (kept as text for now) -->
+                <text [attr.x]="node.x! + rectWidth / 2 + 10" [attr.y]="node.y!" class="expand-icon"
                     (click)="toggleExpand(node)">
                     {{ node.expanded ? '▲' : '▼' }}
                 </text>
 
-                <!-- Contextual menu displaying child goals when expanded -->
-                <foreignObject *ngIf="node.expanded" [attr.x]="node.x!! - rectWidth / 2" [attr.y]="node.y!! + 80"
-                    width="300" height="400">
+                <!-- Contextual menu for child goals -->
+                <foreignObject *ngIf="node.expanded" [attr.x]="node.x! - rectWidth / 2" [attr.y]="node.y! + 80"
+                    [attr.width]="getContextualMenuWidth(node)" [attr.height]="getContextualMenuHeight(node)">
                     <div class="contextual-menu">
-                        <ul>
-                            <li *ngFor="let child of node.children" class="menu-item">
+                        <mat-list>
+                            <mat-list-item *ngFor="let child of node.children">
                                 <div class="menu-content">
                                     <span class="menu-label">{{ child.name }}</span>
-                                    <span class="details-icon" (click)="showGoalDetails(child)">&#9432;</span>
-                                    <span *ngIf="child.children" class="composite-icon" (click)="toggleExpand(child)">
-                                        {{ child.expanded ? '▲' : '▼' }}
-                                    </span>
-                                    <span *ngIf="!child.children" class="checkbox-icon">
-                                        <input type="checkbox" [checked]="selectedGoals.includes(child.name)"
-                                            (change)="toggleGoalSelection(child)" />
-                                    </span>
+                                    <button mat-icon-button color="primary" (click)="showGoalDetails(child)"
+                                        matTooltip="View Details">
+                                        <mat-icon>info</mat-icon>
+                                    </button>
+                                    <ng-container *ngIf="child.children && child.children.length > 0">
+                                        <button mat-icon-button color="accent" (click)="toggleExpand(child)"
+                                            matTooltip="Expand/Collapse">
+                                            <mat-icon>{{ child.expanded ? 'expand_more' : 'chevron_right' }}</mat-icon>
+                                        </button>
+                                    </ng-container>
+                                    <ng-container *ngIf="!child.children || child.children.length === 0">
+                                        <mat-checkbox [checked]="selectedGoals.includes(child.name)"
+                                            (click)="$event.stopPropagation()" (change)="toggleGoalSelection(child)">
+                                        </mat-checkbox>
+                                    </ng-container>
                                 </div>
-                            </li>
-                        </ul>
+                            </mat-list-item>
+                        </mat-list>
                     </div>
                 </foreignObject>
             </g>
         </svg>
     </div>
-
-    <!-- Goal Details Component -->
-    <app-goal-details *ngIf="selectedGoal" [goal]="selectedGoal" (closeDetails)="closeGoalDetails()">
-    </app-goal-details>
 </div>

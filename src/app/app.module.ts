@@ -3,12 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MetadataFormComponent } from './components/metadata-form/metadata-form.component';
+import { QualityAssessmentComponent } from './components/quality-assessment/quality-assessment.component';
 import { QualityModelComponent } from './components/quality-model/quality-model.component';
-
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MaterialModule } from './modules/material.module';
 import { CollapsibleGoalPanelsComponent } from './shared/components/collapsible-goal-panels/collapsible-goal-panels.component';
 import { GoalAssessmentOverviewComponent } from './shared/components/goal-assessment-overview/goal-assessment-overview.component';
@@ -23,14 +23,15 @@ import { ProgressBarComponent } from './shared/components/progress-bar/progress-
 @NgModule({
     declarations: [ // Declare all components used in the application
         AppComponent,
+        QualityAssessmentComponent,
         QualityModelComponent,
         MetadataFormComponent,
         ProgressBarComponent,
-        MetricsDashboardComponent,
-        MetricDetailsComponent,
-        GoalDetailsComponent,
+        CollapsibleGoalPanelsComponent,
         GoalAssessmentOverviewComponent,
-        CollapsibleGoalPanelsComponent
+        MetricsDashboardComponent,
+        GoalDetailsComponent,
+        MetricDetailsComponent,
     ],
     imports: [
         BrowserModule, // Provides services for running an app in the browser

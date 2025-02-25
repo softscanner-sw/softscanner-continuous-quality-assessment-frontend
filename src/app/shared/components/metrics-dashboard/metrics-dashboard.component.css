@@ -1,32 +1,11 @@
-/* Style for the main dashboard container */
-.dashboard {
+.dashboard-card {
   margin: 20px;
   padding: 20px;
-  /* Light background color for better contrast */
   background-color: #f9f9f9;
   border-radius: 10px;
-  /* Subtle shadow for depth */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Style for the main title of the dashboard */
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 20px;
-  /* Darker text for better readability */
-  color: #333;
-}
-
-/* Styling for each metric section container */
-.metric-section {
-  margin-bottom: 30px;
-}
-
-/* Style for the metric subsection titles */
-h3 {
-  font-size: 18px;
-  /* Slightly lighter color for subsection titles */
-  color: #555;
-  margin-bottom: 10px;
+.chart-container {
+  margin: 20px 0;
 }

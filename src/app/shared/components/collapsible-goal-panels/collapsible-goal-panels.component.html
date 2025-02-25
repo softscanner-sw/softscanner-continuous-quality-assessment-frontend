@@ -1,21 +1,20 @@
-<!-- Container for all goal panels -->
-<div class="goal-panels">
-    <!-- Iterate over the list of goals to create a collapsible panel for each -->
-    <div *ngFor="let goal of goalsData" class="goal-panel">
+<mat-accordion class="goal-panels" multi>
+    <mat-expansion-panel *ngFor="let goal of goalsData; trackBy: trackByGoal" (opened)="onPanelOpened(goal)" (closed)="onPanelClosed(goal)">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{ goal.name }}
+            </mat-panel-title>
+            <mat-panel-description>
+                <mat-icon>
+                    {{ isExpanded(goal) ? 'expand_more' : 'chevron_right' }}
+                </mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
 
-        <!-- Collapsible panel header -->
-        <button class="panel-header" (click)="toggleGoalPanel(goal.name)">
-            <span>{{ goal.name }}</span> <!-- Displays the goal name -->
-            <span>{{ expandedGoals.includes(goal.name) ? '▼' : '▲' }}</span> <!-- Toggles arrow based on expanded state -->
-        </button>
-
-        <!-- Collapsible content, visible only if the panel is expanded -->
-        <div *ngIf="expandedGoals.includes(goal.name)" class="panel-content">
-            <!-- Displays goal assessment overview -->
+        <!-- Collapsible content -->
+        <div *ngIf="isExpanded(goal)" class="panel-content">
             <app-goal-assessment-overview [goal]="goal"></app-goal-assessment-overview>
-
-            <!-- Displays metrics dashboard for the selected goal -->
             <app-metrics-dashboard [selectedGoal]="goal"></app-metrics-dashboard>
         </div>
-    </div>
-</div>
+    </mat-expansion-panel>
+</mat-accordion>

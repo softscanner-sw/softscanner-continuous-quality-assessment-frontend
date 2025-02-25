@@ -1,11 +1,16 @@
-<!-- Main container for the progress bar component -->
-<div class="progress-container">
-    <!-- Progress spinner shown when the 'visible' flag is true -->
-    <mat-progress-spinner *ngIf="visible" [mode]="'indeterminate'" [diameter]="80" color="primary">
-    </mat-progress-spinner>
+<mat-card class="progress-card">
+    <mat-card-content>
+        <div class="progress-container">
+            <!-- Angular Material progress spinner -->
+            <mat-progress-spinner *ngIf="visible" mode="indeterminate" [diameter]="80" color="primary">
+            </mat-progress-spinner>
 
-    <!-- Scrollable container for progress log messages -->
-    <div class="progress-logs">
-        <div *ngFor="let log of progressLogs" class="progress-log">{{ log }}</div>
-    </div>
-</div>
+            <!-- Material list for progress log messages -->
+            <mat-list class="progress-logs">
+                <mat-list-item *ngFor="let log of progressLogs; let last = last" [ngClass]="{'last': last}">
+                    {{ log }}
+                </mat-list-item>
+            </mat-list>
+        </div>
+    </mat-card-content>
+</mat-card>
