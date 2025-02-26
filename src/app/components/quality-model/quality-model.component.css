@@ -1,71 +1,48 @@
 .quality-container {
     width: 100%;
-    overflow-x: auto;
+    overflow: auto;
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    white-space: nowrap;
 }
 
-.svg-container {
-    display: inline-block;
-    overflow-x: auto;
-    padding-bottom: 20px;
-    border: 1px solid #ccc;
+.quality-tree {
+    max-height: 600px;
+    overflow: auto;
 }
 
-/* Node label styling inside the foreignObject */
-.node-label {
-    font-weight: bold;
-    font-size: 14px;
-    color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 8px;
-}
-
-.expand-icon {
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    fill: #333;
-}
-
-.expand-icon:hover {
-    fill: #0056b3;
-}
-
-/* Contextual menu styling */
-.contextual-menu {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    /* Prevent exceeding a certain height */
-    max-height: 400px;
-    /* Enable vertical scroll if content exceeds max height */
-    overflow-y: auto;
-    box-sizing: border-box;
-}
-
-/* Menu content alignment inside contextual menu */
-.menu-content {
+/* Node container styling: full width, with consistent padding and alignment */
+.node-container {
     display: flex;
     align-items: center;
     gap: 8px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-bottom: 4px;
     width: 100%;
+    box-sizing: border-box;
 }
 
-/* Menu label styling: allow full text display */
-.menu-label {
+/* Node name styling */
+.node-name {
     flex-grow: 1;
-    font-size: 14px;
     font-weight: bold;
+    font-size: 14px;
     color: #333;
-    white-space: normal;
-    /* Allow wrapping if necessary */
-    overflow: visible;
+}
+
+/* Leaf icon styling: using the 'eco' icon with proper spacing */
+.leaf-icon {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+/* Nested container for child nodes with scrolling enabled */
+.nested-container {
+    margin-left: 20px;
+    border-left: 1px dotted #ccc;
+    padding-left: 10px;
+    max-height: 400px;
+    overflow: auto;
 }

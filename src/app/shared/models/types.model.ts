@@ -29,8 +29,10 @@ export interface GoalNode {
   x?: number;                               // Optional x-coordinate for visualization positioning.
   y?: number;                               // Optional y-coordinate for visualization positioning.
   parent?: GoalNode;                        // Reference to the parent goal.
+  level?: number;                           // Level of the goal in the quality model in the UI
   expanded?: boolean;                       // Indicates whether the goal is expanded in the UI.
   visible?: boolean;                        // Indicates whether the goal is currently visible in the UI.
+  selected?: boolean;                       // Indicates whether goal is currently selected in the quality model in the UI.
 }
 
 /**
