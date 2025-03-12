@@ -15,6 +15,13 @@ SoftScanner's assessment pipeline automates **instrumentation, telemetry collect
 
 ---
 
+## Demo Video
+
+Watch our demonstration video on YouTube:  
+[SoftScanner: Continuous Quality Assessment of an Angular Web Application](https://www.youtube.com/watch?v=VIDEO_ID)
+
+---
+
 ## 📁 Project Structure
 ```plaintext
 src/app
